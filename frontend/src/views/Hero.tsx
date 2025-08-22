@@ -53,8 +53,8 @@ export default function Hero() {
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
           >
             <Title size="lg" variant="light" bold className="text-left leading-[1.1]">
-              Diseño <span className="text-gold">Áureo</span>, Web que{" "}
-              <span className="text-gold">convierte</span>
+              Diseños al <span className="text-gold">Detalle</span>, Webs{" "}
+              <span className="text-gold">profecionales</span>
             </Title>
           </motion.div>
 
