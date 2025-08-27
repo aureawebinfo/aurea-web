@@ -4,7 +4,53 @@ import Title from "@/components/Title";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import DynamicIcon from "@/components/DynamicIcon";
+import { useMemo } from "react";
 
+// Componente de partículas de fondo
+const BackgroundParticles = () => {
+  const particles = useMemo(() => {
+    return Array.from({ length: 80 }).map((_, i) => ({
+      id: i,
+      // Mezcla de letras, números y símbolos
+      char: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ%$#@!&*"[
+        Math.floor(Math.random() * 40)
+      ],
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 1.5 + 0.5,
+      opacity: Math.random() * 0.05 + 0.02,
+    }));
+  }, []);
+
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+      {particles.map((particle) => (
+        <motion.span
+          key={particle.id}
+          className="absolute text-gray-400 dark:text-gray-200 font-mono"
+          style={{
+            left: `${particle.x}%`,
+            top: `${particle.y}%`,
+            fontSize: `${particle.size}rem`,
+            opacity: particle.opacity,
+          }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{
+            scale: 4,
+            opacity: particle.opacity,
+          }}
+          transition={{
+            duration: 6,
+            delay: particle.id * 0.01,
+            ease: "easeOut",
+          }}
+        >
+          {particle.char}
+        </motion.span>
+      ))}
+    </div>
+  );
+};
 export default function Hero() {
   return (
     <motion.section
@@ -26,6 +72,9 @@ export default function Hero() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
     >
+      {/* Fondo de partículas */}
+      <BackgroundParticles />
+
       <div className="mx-auto max-w-7xl px-6">
         {/* Contenedor animado con leve “idle” breathing */}
         <motion.div
@@ -33,17 +82,17 @@ export default function Hero() {
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
-        //   transition={{ duration: 0.6, ease: "easeOut" }}
+          //   transition={{ duration: 0.6, ease: "easeOut" }}
           animate={{ y: [0, -2, 0] }}
           transition={{
-                opacity: { duration: 0.6, ease: "easeOut" },
-                y: {
-                duration: 6,
-                repeat: Infinity,
-                repeatType: "mirror",
-                ease: "easeInOut",
-                },
-            }}
+            opacity: { duration: 0.6, ease: "easeOut" },
+            y: {
+              duration: 6,
+              repeat: Infinity,
+              repeatType: "mirror",
+              ease: "easeInOut",
+            },
+          }}
         >
           {/* Título grande, sin fondo, adaptado al tema. Palabras clave en dorado. */}
           <motion.div
@@ -52,7 +101,12 @@ export default function Hero() {
             viewport={{ once: true, amount: 0.8 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
           >
-            <Title size="lg" variant="light" bold className="text-left leading-[1.1]">
+            <Title
+              size="lg"
+              variant="light"
+              bold
+              className="text-left leading-[1.1]"
+            >
               Diseños al <span className="text-gold">Detalle</span>, Webs{" "}
               <span className="text-gold">profecionales</span>
             </Title>
@@ -65,10 +119,14 @@ export default function Hero() {
             viewport={{ once: true, amount: 0.8 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.12 }}
           >
-            <Text size="lg" variant="light" className="max-w-3xl text-left text-balance">
+            <Text
+              size="lg"
+              variant="light"
+              className="max-w-3xl text-left text-balance"
+            >
               Elegancia <span className="text-gold">matemática</span>, ejecución{" "}
-              <span className="text-gold">profesional</span> y resultados medibles.
-              Páginas sencillas, premium y armónicas con la{" "}
+              <span className="text-gold">profesional</span> y resultados
+              medibles. Páginas sencillas, premium y armónicas con la{" "}
               <span className="text-gold">proporción áurea</span>.
             </Text>
           </motion.div>
@@ -82,7 +140,11 @@ export default function Hero() {
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.18 }}
           >
             <Link to="/proyectos" aria-label="Ir a la galería de proyectos">
-              <Button variant="text-icon-outline" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+              <Button
+                variant="text-icon-outline"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+              >
                 <DynamicIcon icon="ArrowRight" size="md" />
                 Trabajos
               </Button>
