@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import Section from "@/components/Section";
+import SectionHeader from "@/components/SectionHeader";
+import DynamicIcon from "@/components/DynamicIcon";
 
 interface TeamMember {
   image: string;
@@ -9,6 +13,7 @@ interface TeamMember {
 
 const NuestroEquipo: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
 
   const teamMembers: TeamMember[] = [
     {
@@ -16,7 +21,7 @@ const NuestroEquipo: React.FC = () => {
       name: "Andres Roa",
       position: "Desarrollador Web",
       description:
-        "Experto en estrategias de negocio con más de 10 años de experiencia.",
+        "Experto en estrategias de negocio con más de 1 año de experiencia.",
     },
     {
       image: "/ruta/a/imagen2.jpg",
@@ -26,14 +31,14 @@ const NuestroEquipo: React.FC = () => {
         "Apasionada por la tecnología y innovación en desarrollo web.",
     },
     {
-      image: "/ruta/a/imagen2.jpg",
+      image: "/ruta/a/imagen3.jpg",
       name: "John Lievano",
       position: "Desarrollador Web",
       description:
-        "Apasionada por la tecnología y innovación en desarrollo web.",
+        "Especialista en soluciones innovadoras y eficientes para web.",
     },
     {
-      image: "/ruta/a/imagen3.jpg",
+      image: "/ruta/a/imagen4.jpg",
       name: "Samuel Loaiza",
       position: "Desarrollador Web",
       description:
@@ -43,6 +48,7 @@ const NuestroEquipo: React.FC = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      setDirection(0);
       setCurrentIndex((prevIndex) =>
         prevIndex === teamMembers.length - 1 ? 0 : prevIndex + 1
       );
@@ -52,70 +58,156 @@ const NuestroEquipo: React.FC = () => {
   }, [teamMembers.length]);
 
   const goToNext = () => {
+    setDirection(0);
     setCurrentIndex(
       currentIndex === teamMembers.length - 1 ? 0 : currentIndex + 1
     );
   };
 
   const goToPrevious = () => {
+    setDirection(1);
     setCurrentIndex(
       currentIndex === 0 ? teamMembers.length - 1 : currentIndex - 1
     );
   };
 
+  const goToSlide = (index: number) => {
+    setDirection(index > currentIndex ? 0 : 1);
+    setCurrentIndex(index);
+  };
+
   return (
-    <div className="relative w-full max-w-4xl mx-auto overflow-hidden">
-      <div>
-        <h2 className="text-3xl font-bold text-center mb-8 text-color-text">
-          Nuestro Equipo
-        </h2>
-      </div>
-      <div
-        className="flex transition-transform duration-500 ease-in-out"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-      >
-        {teamMembers.map((member, index) => (
-          <div
-            key={index}
-            className="min-w-full flex flex-col items-center p-4"
-          >
-            <img
-              src={member.image}
-              alt={member.name}
-              className="w-48 h-48 rounded-full object-cover mb border-4 border-amber-300"
+    <Section id="equipo" variant="primary" className="py-12 md:py-20">
+      <SectionHeader 
+        title="Nuestro Equipo" 
+        subtitle="Profesionales apasionados por crear experiencias web excepcionales"
+        icon={<DynamicIcon icon="Users" size="lg" />}
+      />
+      
+      <div className="relative w-full max-w-4xl mx-auto overflow-hidden rounded-2xl bg-primary/70 dark:bg-primary/50 backdrop-blur-sm border border-gold/30 shadow-lg">
+        {/* Contenedor del slider */}
+        <div className="relative h-[420px] md:h-[500px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ 
+                x: direction === 0 ? 1000 : -1000, 
+                opacity: 0, 
+                scale: 0.9 
+              }}
+              animate={{ 
+                x: 0, 
+                opacity: 1, 
+                scale: 1 
+              }}
+              exit={{ 
+                x: direction === 0 ? -1000 : 1000, 
+                opacity: 0, 
+                scale: 0.9 
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+                duration: 0.4
+              }}
+              className="absolute inset-0 flex flex-col md:flex-row items-center justify-center p-4 md:p-8"
+            >
+              {/* Imagen con proporción áurea (61.8%) */}
+              <div className="w-full md:w-[61.8%] h-[40%] md:h-full flex items-center justify-center p-3 md:p-6">
+                <motion.div 
+                  className="relative w-full h-full overflow-hidden rounded-xl shadow-2xl"
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-gold/10 to-transparent z-10" />
+                  <img
+                    src={teamMembers[currentIndex].image}
+                    alt={teamMembers[currentIndex].name}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-black/70 to-transparent" />
+                </motion.div>
+              </div>
+              
+              {/* Contenido con proporción áurea (38.2%) */}
+              <div className="w-full md:w-[38.2%] h-[60%] md:h-full flex flex-col justify-center p-3 md:p-6 bg-primary/80 dark:bg-primary/60 backdrop-blur-sm">
+                <motion.h3 
+                  className="text-xl md:text-2xl font-bold text-gold mb-2"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  {teamMembers[currentIndex].name}
+                </motion.h3>
+                
+                <motion.p 
+                  className="text-base md:text-lg text-color-text/80 mb-3 font-semibold"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  {teamMembers[currentIndex].position}
+                </motion.p>
+                
+                <motion.p 
+                  className="text-sm md:text-base text-color-text/90 leading-relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  {teamMembers[currentIndex].description}
+                </motion.p>
+                
+                <motion.div 
+                  className="mt-4 flex items-center space-x-2"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <div className="h-1 w-6 bg-gold rounded-full"></div>
+                  <div className="h-1 w-3 bg-gold/40 rounded-full"></div>
+                  <div className="h-1 w-3 bg-gold/40 rounded-full"></div>
+                </motion.div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+        
+        {/* Botones de navegación */}
+        <button
+          onClick={goToPrevious}
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-primary/80 dark:bg-primary/60 backdrop-blur-sm border border-gold/30 text-gold shadow-lg hover:bg-gold hover:text-primary transition-all duration-300"
+          aria-label="Miembro anterior"
+        >
+          <DynamicIcon icon="ChevronLeft" size="sm" />
+        </button>
+        
+        <button
+          onClick={goToNext}
+          className="absolute right-3 top-1/2 transform -translate-y-1/2 z-10 w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-primary/80 dark:bg-primary/60 backdrop-blur-sm border border-gold/30 text-gold shadow-lg hover:bg-gold hover:text-primary transition-all duration-300"
+          aria-label="Siguiente miembro"
+        >
+          <DynamicIcon icon="ChevronRight" size="sm" />
+        </button>
+        
+        {/* Indicadores */}
+        <div className="absolute bottom-3 left-0 right-0 flex justify-center space-x-2 z-10">
+          {teamMembers.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all duration-300 ${
+                index === currentIndex 
+                  ? "bg-gold scale-110" 
+                  : "bg-gold/40 hover:bg-gold/60"
+              }`}
+              aria-label={`Ir al miembro ${index + 1}`}
             />
-            <h3 className="text-xl font-bold">{member.name}</h3>
-            <p className="text-lg text-gray-600 mb-2">{member.position}</p>
-            <p className="text-center max-w-md">{member.description}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-
-      <button
-        onClick={goToPrevious}
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 hover:bg-amber-300 rounded-full shadow-md"
-      >
-        ‹
-      </button>
-      <button
-        onClick={goToNext}
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 hover:bg-amber-300 rounded-full shadow-md"
-      >
-        ›
-      </button>
-
-      <div className="flex justify-center mt-4">
-        {teamMembers.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`h-3 w-3 mx-1 rounded-full ${
-              index === currentIndex ? "bg-amber-300" : "bg-white"
-            }`}
-          />
-        ))}
-      </div>
-    </div>
+    </Section>
   );
 };
 

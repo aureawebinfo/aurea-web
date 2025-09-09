@@ -25,10 +25,12 @@
 @layer base {
   * {
     border-color: var(--color-gold);
+    transition: border-color 0.6s ease; /* ⬅️ agregado */
   }
   body {
     background-color: var(--color-primary);
     color: var(--color-text);
+    transition: background-color 0.6s ease, color 0.6s ease; /* ⬅️ agregado */
   }
 }
 
