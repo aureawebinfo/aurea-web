@@ -6,7 +6,7 @@ interface CardProps {
   children: React.ReactNode;
   className?: string;
   size?: "sm" | "md" | "lg";
-  background?: "none" | "primary" | "secondary" | "tertiary";
+  background?: "none" | "primary" | "secondary" | "tertiary" | "glass";
   as?: "div" | "button" | "a";
   href?: string;
   onClick?: () => void;
@@ -35,6 +35,7 @@ export default function Card({
     primary: "bg-color-primary",
     secondary: "bg-color-secondary",
     tertiary: "bg-color-tertiary",
+    glass: "bg-background/80 dark:bg-background/80 backdrop-blur-md", // Nueva variante glass
   };
 
   return (

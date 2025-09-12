@@ -158,8 +158,8 @@ export default function Hero() {
             >
               Elegancia <span className="text-gold">matemática</span>, ejecución{" "}
               <span className="text-gold">profesional</span> y resultados
-              medibles. Páginas sencillas, premium y armónicas con la{" "}
-              <span className="text-gold">proporción áurea</span>.
+              medibles. Páginas Completas, premiums y armónicas con sus{" "}
+              <span className="text-gold">propositos</span>.
             </Text>
           </motion.div>
 

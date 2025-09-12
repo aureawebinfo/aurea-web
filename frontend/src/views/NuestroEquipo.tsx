@@ -77,10 +77,10 @@ const NuestroEquipo: React.FC = () => {
   };
 
   return (
-    <Section id="equipo" variant="primary" className="py-12 md:py-20">
+    <Section id="equipo" variant="secondary" className="py-12 md:py-20">
       <SectionHeader 
         title="Nuestro Equipo" 
-        subtitle="Profesionales apasionados por crear experiencias web excepcionales"
+        subtitle="Profesionales apasionados por crear experiencias web perfectas"
         icon={<DynamicIcon icon="Users" size="lg" />}
       />
       
@@ -131,7 +131,7 @@ const NuestroEquipo: React.FC = () => {
               </div>
               
               {/* Contenido con proporción áurea (38.2%) */}
-              <div className="w-full md:w-[38.2%] h-[60%] md:h-full flex flex-col justify-center p-3 md:p-6 bg-primary/80 dark:bg-primary/60 backdrop-blur-sm">
+              <div className="w-full md:w-[38.2%] h-[60%] md:h-full flex flex-col justify-center p-3 md:p-6">
                 <motion.h3 
                   className="text-xl md:text-2xl font-bold text-gold mb-2"
                   initial={{ opacity: 0, y: 20 }}

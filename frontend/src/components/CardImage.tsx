@@ -9,7 +9,7 @@ interface CardImageProps {
   text?: string;
   detached?: boolean;
   size?: "sm" | "md" | "lg";
-  background?: "none" | "primary" | "secondary" | "tertiary";
+  background?: "none" | "primary" | "secondary" | "tertiary" | "glass";
 }
 
 export default function CardImage({ image, title, text, detached = false, size, background }: CardImageProps) {

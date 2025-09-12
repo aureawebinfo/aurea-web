@@ -11,8 +11,8 @@ export default function Index() {
     <>
       <Hero />
       <Services />
-      <Equipo />
       <Portfolio />
+      <Equipo />
       <Opinions />
       <Contact />
     </>

@@ -6,7 +6,7 @@ interface CardTextProps {
   title: string;
   text: string;
   size?: "sm" | "md" | "lg";
-  background?: "none" | "primary" | "secondary" | "tertiary";
+  background?: "none" | "primary" | "secondary" | "tertiary" | "glass";
 }
 
 export default function CardText({ title, text, size, background }: CardTextProps) {
