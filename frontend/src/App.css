@@ -6,7 +6,7 @@
   /* === Tema Claro === */
   --color-gold: #d4af37; /* Dorado */
   --color-primary: #f8f8f5; /* Blanco pastel */
-  --color-secondary: #a7c7e7; /* Azul claro pastel */
+  --color-secondary: #1b9a8f; /* Azul claro pastel */
   --color-tertiary: #ffd700; /* Dorado brillante */
   --color-text: #333333; /* Negro suave */
   --color-shadow: rgba(0, 0, 0, 0.1); /* Sombras suaves */
@@ -16,7 +16,7 @@
   /* === Tema Oscuro === */
   --color-gold: #ffc300; /* Dorado brillante neón */
   --color-primary: #0a0a0a; /* Negro noche */
-  --color-secondary: #090d17; /* Degradado azul oscuro elegante */
+  --color-secondary: #022f2c; /* Degradado azul oscuro elegante */
   --color-tertiary: #ffd60a; /* Dorado neón */
   --color-shadow: rgba(255, 195, 0, 0.15); /* Sombras doradas sutiles */
   --color-text: #f0f0f0; /* Blanco suave */

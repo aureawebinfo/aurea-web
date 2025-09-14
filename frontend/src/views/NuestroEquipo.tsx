@@ -3,12 +3,18 @@ import { motion, AnimatePresence } from "motion/react";
 import Section from "@/components/Section";
 import SectionHeader from "@/components/SectionHeader";
 import DynamicIcon from "@/components/DynamicIcon";
+import Button from "@/components/Button";
 
 interface TeamMember {
   image: string;
   name: string;
   position: string;
   description: string;
+  links: {
+    github: string;
+    linkedin: string;
+    portfolio: string;
+  };
 }
 
 const NuestroEquipo: React.FC = () => {
@@ -22,13 +28,23 @@ const NuestroEquipo: React.FC = () => {
       position: "Desarrollador Web",
       description:
         "Experto en estrategias de negocio con más de 1 año de experiencia.",
+      links: {
+        github: "https://github.com/Andiuagsfb",
+        linkedin: "#",
+        portfolio: "#"
+      }
     },
     {
-      image: "/ruta/a/imagen2.jpg",
+      image: "/img/team/edizon.jpeg",
       name: "Edizon Meza",
       position: "Desarrollador Web",
       description:
         "Apasionada por la tecnología y innovación en desarrollo web.",
+      links: {
+        github: "https://github.com/edimez14",
+        linkedin: "https://www.linkedin.com/in/edizon-meza-leal-abb0361b9/",
+        portfolio: "https://edizon-leal.vercel.app/"
+      }
     },
     {
       image: "/ruta/a/imagen3.jpg",
@@ -36,6 +52,11 @@ const NuestroEquipo: React.FC = () => {
       position: "Desarrollador Web",
       description:
         "Especialista en soluciones innovadoras y eficientes para web.",
+      links: {
+        github: "https://github.com/johnlievano",
+        linkedin: "#",
+        portfolio: "#"
+      }
     },
     {
       image: "/ruta/a/imagen4.jpg",
@@ -43,6 +64,11 @@ const NuestroEquipo: React.FC = () => {
       position: "Desarrollador Web",
       description:
         "Creando experiencias de usuario excepcionales e interfaces intuitivas.",
+      links: {
+        github: "https://github.com/zoyeras",
+        linkedin: "https://www.linkedin.com/in/samueldavidloaiza/",
+        portfolio: "https://portafolio-xi-three-59.vercel.app/"
+      }
     },
   ];
 
@@ -114,9 +140,9 @@ const NuestroEquipo: React.FC = () => {
               className="absolute inset-0 flex flex-col md:flex-row items-center justify-center p-4 md:p-8"
             >
               {/* Imagen con proporción áurea (61.8%) */}
-              <div className="w-full md:w-[61.8%] h-[40%] md:h-full flex items-center justify-center p-3 md:p-6">
+              <div className="w-full  md:w-[52%] h-[48%] md:h-full flex items-center justify-center p-2 md:p-4">
                 <motion.div 
-                  className="relative w-full h-full overflow-hidden rounded-xl shadow-2xl"
+                  className="relative w-full h-full overflow-hidden rounded-full shadow-2xl"
                   whileHover={{ scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
@@ -158,6 +184,48 @@ const NuestroEquipo: React.FC = () => {
                 >
                   {teamMembers[currentIndex].description}
                 </motion.p>
+
+                <div className="flex">
+                  <motion.a 
+                    className="text-sm md:text-base text-color-text/90 leading-relaxed"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    href={teamMembers[currentIndex].links.github}
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    <Button variant="icon">
+                      <DynamicIcon icon="Github" size="sm" />
+                    </Button>
+                  </motion.a>
+                  <motion.a 
+                    className="text-sm md:text-base text-color-text/90 leading-relaxed"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    href={teamMembers[currentIndex].links.linkedin}
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    <Button variant="icon">
+                      <DynamicIcon icon="Linkedin" size="sm" />
+                    </Button>
+                  </motion.a>
+                  <motion.a 
+                    className="text-sm md:text-base text-color-text/90 leading-relaxed"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    href={teamMembers[currentIndex].links.portfolio}
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    <Button variant="icon">
+                      <DynamicIcon icon="BriefcaseBusiness" size="sm" />
+                    </Button>
+                  </motion.a>
+                </div>
                 
                 <motion.div 
                   className="mt-4 flex items-center space-x-2"
