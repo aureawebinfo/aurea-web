@@ -8,7 +8,7 @@ interface CardImageProps {
   title?: string;
   text?: string;
   detached?: boolean;
-  size?: "sm" | "md" | "lg";
+  size?: "smV" | "mdV" | "lgV" | "smH" | "mdH" | "lgH";
   background?: "none" | "primary" | "secondary" | "tertiary" | "glass";
 }
 

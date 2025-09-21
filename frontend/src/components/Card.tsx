@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 interface CardProps {
   children: React.ReactNode;
   className?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "smV" | "mdV" | "lgV" | "smH" | "mdH" | "lgH";
   background?: "none" | "primary" | "secondary" | "tertiary" | "glass";
   as?: "div" | "button" | "a";
   href?: string;
@@ -15,7 +15,7 @@ interface CardProps {
 export default function Card({
   children,
   className,
-  size = "md",
+  size = "mdH",
   background = "none",
   as = "div",
   href,
@@ -25,10 +25,13 @@ export default function Card({
 
   // proporción áurea vertical (alto > ancho)
   const sizeStyles = {
-    sm: "w-[155px] h-[250px]",
-    md: "w-[247px] h-[400px]",
-    lg: "w-[402px] h-[650px]",
-  };
+  smV: "w-[155px] h-[250px]", // vertical sm
+  mdV: "w-[247px] h-[400px]",
+  lgV: "w-[402px] h-[650px]",
+  smH: "w-[250px] h-[155px]", // horizontal sm (proporción áurea invertida)
+  mdH: "w-[400px] h-[247px]",
+  lgH: "w-[650px] h-[402px]",
+};
 
   const bgStyles = {
     none: "bg-transparent",

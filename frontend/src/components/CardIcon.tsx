@@ -9,7 +9,7 @@ interface CardIconProps {
   icon: string;
   title: string;
   text: string;
-  size?: "sm" | "md" | "lg";
+  size?: "smV" | "mdV" | "lgV" | "smH" | "mdH" | "lgH";
   background?: "none" | "primary" | "secondary" | "tertiary" | "glass";
 }
 

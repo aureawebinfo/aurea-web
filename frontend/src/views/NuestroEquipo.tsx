@@ -47,7 +47,7 @@ const NuestroEquipo: React.FC = () => {
       }
     },
     {
-      image: "/ruta/a/imagen3.jpg",
+      image: "/img/team/john.jpeg",
       name: "John Lievano",
       position: "Desarrollador Web",
       description:
