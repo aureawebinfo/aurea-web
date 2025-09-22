@@ -93,7 +93,7 @@ export default function Hero() {
     <motion.section
       id="hero"
       className={[
-        "relative w-screen mb-2",
+        "relative w-full mb-2",
         "mx-[calc(50%-50vw)]",
         "bg-transparent",
         "rounded-b-3xl",

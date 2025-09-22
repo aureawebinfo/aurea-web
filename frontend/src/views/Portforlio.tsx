@@ -1,4 +1,4 @@
-import CardImage from "@/components/CardImage";
+// import CardImage from "@/components/CardImage";
 import DynamicIcon from "@/components/DynamicIcon";
 import Section from "@/components/Section";
 import SectionContent from "@/components/SectionContent";
@@ -14,7 +14,7 @@ export default function Portfolio() {
                 icon={<DynamicIcon icon="Presentation" size="lg" />} 
             />
             <SectionContent className="md:grid-cols-1 lg:grid-cols-1">
-                <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+                {/* <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
                     <CardImage
                     image="/img/works/ejemplo_1.jpg"
                     title="Proyecto 1"
@@ -33,7 +33,7 @@ export default function Portfolio() {
                     text="Portfolio"
                     size="smH"
                     />
-                </div>
+                </div> */}
                 <div className="w-full max-w-4xl mx-auto">
                     <VideoPlayer
                         src="/video_aurea_web.mp4"
