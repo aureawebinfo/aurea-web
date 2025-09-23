@@ -5,8 +5,8 @@ import Card from "./Card";
 interface CardTextProps {
   title: string;
   text: string;
-  size?: "sm" | "md" | "lg";
-  background?: "none" | "primary" | "secondary" | "tertiary";
+  size?: "smV" | "mdV" | "lgV" | "smH" | "mdH" | "lgH";
+  background?: "none" | "primary" | "secondary" | "tertiary" | "glass";
 }
 
 export default function CardText({ title, text, size, background }: CardTextProps) {

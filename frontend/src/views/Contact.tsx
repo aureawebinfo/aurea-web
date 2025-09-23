@@ -1,13 +1,23 @@
+// Contact.tsx
 import Section from "@/components/Section";
 import SectionContent from "@/components/SectionContent";
 import SectionHeader from "@/components/SectionHeader";
+import ContactForm from "@/components/ContactForm";
+import LocationMap from "@/components/LocationMap";
+import DynamicIcon from "@/components/DynamicIcon";
+
 
 export default function Contact() {
     return (
-        <Section variant="secondary">
-            <SectionHeader title="Secion de contacto" subtitle="esta es la seccion de contacto con sus formularios" />
-            <SectionContent>
-                <p>formularios de contacto</p>
+        <Section variant="secondary" id="contacto">
+            <SectionHeader 
+                title="Contáctanos" 
+                subtitle="Estamos aquí para hacer realidad tu proyecto web."
+                icon={<DynamicIcon icon="Mail" size="lg" />}
+            />
+            <SectionContent className="!grid-cols-1 lg:!grid-cols-2 gap-8 lg:gap-12">
+                <ContactForm />
+                <LocationMap />
             </SectionContent>
         </Section>
     )

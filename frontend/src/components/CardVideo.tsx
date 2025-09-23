@@ -6,8 +6,8 @@ interface CardVideoProps {
   videoUrl: string;
   title?: string;
   text?: string;
-  size?: "sm" | "md" | "lg";
-  background?: "none" | "primary" | "secondary" | "tertiary";
+  size?: "smV" | "mdV" | "lgV" | "smH" | "mdH" | "lgH";
+  background?: "none" | "primary" | "secondary" | "tertiary" | "glass";
 }
 
 export default function CardVideo({ videoUrl, title, text, size, background }: CardVideoProps) {

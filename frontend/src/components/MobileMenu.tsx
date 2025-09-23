@@ -14,7 +14,7 @@ export default function MobileMenu({ isOpen, onClose, navigation }: MobileMenuPr
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur md:hidden">
+    <div className="fixed inset-0 z-50 bg-secondary/85 backdrop-blur md:hidden">
       <div className="flex items-center justify-between p-4 border-b">
         <Logo />
         <button

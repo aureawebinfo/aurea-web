@@ -4,85 +4,117 @@ import Title from "@/components/Title";
 import Text from "@/components/Text";
 import Button from "@/components/Button";
 import DynamicIcon from "@/components/DynamicIcon";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 
-// Componente de partículas de fondo
+// Estilos para las animaciones de partículas en bucle infinito
+const particleStyles = `
+  @keyframes particle-loop {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    20% {
+      opacity: var(--particle-opacity);
+      transform: scale(4);
+    }
+    80% {
+      opacity: var(--particle-opacity);
+      transform: scale(4);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0);
+    }
+  }
+`;
+
+// Componente de partículas de fondo con bucle infinito
 const BackgroundParticles = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Detectar cambios en el tema
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    setIsDarkMode(mediaQuery.matches);
+    
+    const handler = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
+
   const particles = useMemo(() => {
     return Array.from({ length: 80 }).map((_, i) => ({
       id: i,
-      // Mezcla de letras, números y símbolos
-      char: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ%$#@!&*"[
+      char: "0123456789ABCXYZ%$#@!&*"[
         Math.floor(Math.random() * 40)
       ],
       x: Math.random() * 100,
       y: Math.random() * 100,
       size: Math.random() * 1.5 + 0.5,
-      opacity: Math.random() * 0.05 + 0.02,
+      opacity: Math.random() * 0.1 + 0.05, // Aumentada la opacidad
+      delay: i * 0.01,
+      duration: 6 + Math.random() * 2
     }));
   }, []);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      {particles.map((particle) => (
-        <motion.span
-          key={particle.id}
-          className="absolute text-gray-400 dark:text-gray-200 font-mono"
-          style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            fontSize: `${particle.size}rem`,
-            opacity: particle.opacity,
-          }}
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{
-            scale: 4,
-            opacity: particle.opacity,
-          }}
-          transition={{
-            duration: 6,
-            delay: particle.id * 0.01,
-            ease: "easeOut",
-          }}
-        >
-          {particle.char}
-        </motion.span>
-      ))}
+      <style>{particleStyles}</style>
+      {particles.map((particle) => {
+        // Crear un objeto de estilo compatible con TypeScript
+        const particleStyle: React.CSSProperties = {
+          left: `${particle.x}%`,
+          top: `${particle.y}%`,
+          fontSize: `${particle.size}rem`,
+          opacity: particle.opacity,
+          animation: `particle-loop ${particle.duration}s ease-in-out infinite`,
+          animationDelay: `${particle.delay}s`,
+          willChange: 'transform, opacity',
+          color: isDarkMode ? 'rgba(225, 225, 225, 0.7)' : 'rgba(75, 85, 99, 0.7)' // Colores adaptados al tema
+        };
+        
+        return (
+          <span
+            key={particle.id}
+            className="absolute font-mono transition-colors duration-500"
+            style={particleStyle}
+          >
+            {particle.char}
+          </span>
+        );
+      })}
     </div>
   );
 };
+
 export default function Hero() {
   return (
     <motion.section
       id="hero"
-      // Edge-to-edge, sin fondo. Solo borde/sombra inferior + esquinas redondeadas abajo.
       className={[
-        "relative w-screen mb-2",
-        "mx-[calc(50%-50vw)]", // estirar al borde del viewport
+        "relative w-full mb-2",
+        "mx-[calc(50%-50vw)]",
         "bg-transparent",
         "rounded-b-3xl",
         "border-b-2 border-[var(--color-gold)]",
-        // sombra solo perceptible abajo (simulada)
         "after:pointer-events-none after:absolute after:inset-x-0 after:-bottom-2 after:h-6",
         "after:content-[''] after:rounded-b-3xl after:shadow-[0_24px_48px_rgba(0,0,0,0.18)] dark:after:shadow-[0_24px_48px_rgba(255,255,255,0.10)]",
-        // proporción áurea para espaciados
         "[--phi:1.618] pt-[calc(5rem*var(--phi))] pb-[5rem] md:pt-[calc(6rem*var(--phi))] md:pb-[6rem]",
+        "transition-colors duration-500",
       ].join(" ")}
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
     >
-      {/* Fondo de partículas */}
       <BackgroundParticles />
 
       <div className="mx-auto max-w-7xl px-6">
-        {/* Contenedor animado con leve “idle” breathing */}
         <motion.div
           className="flex flex-col items-start gap-6 md:gap-8"
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
-          //   transition={{ duration: 0.6, ease: "easeOut" }}
           animate={{ y: [0, -2, 0] }}
           transition={{
             opacity: { duration: 0.6, ease: "easeOut" },
@@ -126,8 +158,8 @@ export default function Hero() {
             >
               Elegancia <span className="text-gold">matemática</span>, ejecución{" "}
               <span className="text-gold">profesional</span> y resultados
-              medibles. Páginas sencillas, premium y armónicas con la{" "}
-              <span className="text-gold">proporción áurea</span>.
+              medibles. Páginas Completas, premiums y armónicas con sus{" "}
+              <span className="text-gold">propositos</span>.
             </Text>
           </motion.div>
 
