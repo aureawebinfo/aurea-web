@@ -1,6 +1,25 @@
+import DynamicIcon from '@/components/DynamicIcon';
 import Text from '../components/Text';
 
 export default function Footer() {
+  // Define el tipo para los iconos válidos
+  type ValidIcon = "Github" | "Twitter" | "Instagram" | "Linkedin";
+
+  // Mapeo seguro de iconos
+  const socialIconsMap: Record<string, ValidIcon> = {
+    "Github": "Github",
+    "Twitter": "Twitter", 
+    "Instagram": "Instagram",
+    "LinkedIn": "Linkedin"
+  };
+
+  // URLs para cada red social
+  const socialUrls = {
+    "Github": "https://github.com/aureawebinfo",
+    "Twitter": "https://x.com/Aurea_Web", 
+    "Instagram": "https://www.instagram.com/aurea.web/",
+    "LinkedIn": "https://www.linkedin.com/in/%C3%A1urea-web-s-a-s-403861384/"
+  };
   return (
     <footer className="pt-12 pb-8 bg-transparent">
       <div className="max-w-6xl mx-auto px-4">
@@ -15,16 +34,21 @@ export default function Footer() {
               clientes.
             </Text>
             <div className="flex space-x-4">
-              {["Facebook", "Twitter", "Instagram", "LinkedIn"].map((social) => (
-                <a
-                  key={social}
-                  href="#"
-                  className="text-[var(--color-text)] hover:text-[var(--color-gold)] transition-colors duration-300"
-                  aria-label={social}
-                >
-                  {social}
-                </a>
-              ))}
+              {Object.keys(socialUrls).map((social) => {
+                const socialKey = social as keyof typeof socialUrls;
+                const iconName = socialIconsMap[socialKey];
+                
+                return (
+                  <a
+                    key={social}
+                    href={socialUrls[socialKey]}
+                    className="text-[var(--color-text)] hover:text-[var(--color-gold)] transition-colors duration-300"
+                    aria-label={social}
+                  >
+                    {iconName && <DynamicIcon icon={iconName} size='md' />}
+                  </a>
+                );
+              })}
             </div>
           </div>
 
@@ -33,10 +57,10 @@ export default function Footer() {
               Enlaces Rápidos
             </h4>
             <ul className="space-y-2">
-              {["Inicio", "Servicios", "Productos", "Nosotros"].map((item) => (
+              {["Inicio","Servicios", "Portafolio", "Nuestro Equipo", "Opiniones", "Contacto"].map((item) => (
                 <li key={item}>
                   <a
-                    href="#"
+                    href={["hero", "service", "portfolio", "team", "opinions", "contact"].map((item) => (`#${item.toLowerCase()}`))[item === "Inicio" ? 0 : item === "Servicios" ? 1 : item === "Portafolio" ? 2 : item === "Nuestro Equipo" ? 3 : item === "Opiniones" ? 4 : 5]}
                     className="text-[var(--color-text)] hover:text-[var(--color-gold)] transition-colors duration-300 block"
                   >
                     {item}
@@ -51,10 +75,14 @@ export default function Footer() {
               Contacto
             </h4>
             <address className="not-italic">
-              <Text variant="light" textAlign="left">123 Calle Principal</Text>
-              <Text variant="light" textAlign="left">Ciudad, CP 00000</Text>
-              <Text variant="light" textAlign="left" className="mt-2">email@ejemplo.com</Text>
-              <Text variant="light" textAlign="left">+1 (234) 567-8900</Text>
+              <Text variant="light" textAlign="left" className="flex items-center mt-2">
+                <DynamicIcon icon='Mail' size='sm' />  aureawebinfo@gmail.com
+              </Text>
+              <Text variant="light" textAlign="left">
+                <a href="https://wa.me/573002477019" className='flex items-center' target="_blank">
+                  <DynamicIcon icon='PhoneCall' size='sm' />  +57 300 247 7019
+                </a>
+              </Text>
             </address>
           </div>
         </div>

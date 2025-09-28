@@ -30,7 +30,7 @@ export default function MobileMenu({ isOpen, onClose, navigation }: MobileMenuPr
         {navigation.map((item) => (
           <NavLink
             key={item.name}
-            to={item.href}
+            href={item.href}
             className="py-3 text-lg"
             onClick={onClose}
           >

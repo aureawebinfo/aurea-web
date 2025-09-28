@@ -103,7 +103,7 @@ const NuestroEquipo: React.FC = () => {
   };
 
   return (
-    <Section id="equipo" variant="secondary" className="py-12 md:py-20">
+    <Section id="team" variant="secondary" className="py-12 md:py-20">
       <SectionHeader 
         title="Nuestro Equipo" 
         subtitle="Profesionales apasionados por crear experiencias web perfectas"

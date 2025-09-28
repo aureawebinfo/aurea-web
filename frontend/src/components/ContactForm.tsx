@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useState } from 'react';
 import emailjs from '@emailjs/browser';
+import DynamicIcon from './DynamicIcon';
 
 const countryCodes = [
   { code: '+57', country: 'Colombia', flag: '🇨🇴' },
@@ -97,7 +98,7 @@ export default function ContactForm() {
         transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
         className="text-2xl font-bold text-amber-700 dark:text-amber-300 mb-6 text-center"
       >
-        ✉️ Escríbenos
+        <DynamicIcon icon="Mail" size="md" className="inline-block mr-2" /> Escríbenos
       </motion.h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -218,7 +219,15 @@ export default function ContactForm() {
             disabled={isSubmitting}
             className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 disabled:from-amber-300 disabled:to-amber-400 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:scale-100 shadow-lg"
           >
-            {isSubmitting ? '⏳ Enviando...' : '📤 Enviar mensaje'}
+            {isSubmitting ? (
+              <>
+                <DynamicIcon icon="Hourglass" size="sm" className="inline-block mr-2" /> Enviando...
+              </>
+            ) : (
+              <>
+                <DynamicIcon icon="Send" size="sm" className="inline-block mr-2" /> Enviar mensaje
+              </>
+            )}
           </button>
         </motion.div>
 

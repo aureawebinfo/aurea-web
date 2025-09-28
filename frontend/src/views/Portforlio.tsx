@@ -7,7 +7,7 @@ import VideoPlayer from '@/components/VideoPlayer';
 
 export default function Portfolio() {
     return (
-        <Section>
+        <Section id="portfolio">
             <SectionHeader 
                 title="Nuestros Proyectos Destacados" 
                 subtitle="Descubre el talento y la innovación detrás de cada pagina web que hemos creado para nuestros clientes"
