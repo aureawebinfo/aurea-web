@@ -140,7 +140,7 @@ export default function Hero() {
               className="text-left leading-[1.1]"
             >
               Diseños al <span className="text-gold">Detalle</span>, Webs{" "}
-              <span className="text-gold">profecionales</span>
+              <span className="text-gold">profesionales</span>
             </Title>
           </motion.div>
 
