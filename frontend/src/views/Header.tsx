@@ -11,11 +11,11 @@ export default function Header() {
 
   const navigation = [
     { name: "Inicio", href: "/" },
-    { name: "Servicios", href: "/servicios" },
-    { name: "Portafolio", href: "/portafolio" },
-    { name: "Nuestro Equipo", href: "/opiniones" },
-    { name: "Opiniones", href: "/opiniones" },
-    { name: "contacto", href: "/contacto" },
+    { name: "Servicios", href: "#service" },
+    { name: "Portafolio", href: "#portfolio" },
+    { name: "Nuestro Equipo", href: "#team" },
+    { name: "Opiniones", href: "#opinions" },
+    { name: "Contacto", href: "#contact" },
   ];
 
   return (
@@ -28,7 +28,7 @@ export default function Header() {
               
               <nav className="hidden md:flex items-center space-x-1">
                 {navigation.map((item) => (
-                  <NavLink key={item.name} to={item.href}>
+                  <NavLink key={item.name} href={item.href}>
                     {item.name}
                   </NavLink>
                 ))}

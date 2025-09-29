@@ -6,7 +6,7 @@ import DynamicIcon from "@/components/DynamicIcon";
 
 export default function Services() {
     return (
-        <Section variant="secondary">
+        <Section variant="secondary" id="service">
           <SectionHeader 
             title="Nuestros Servicios" 
             subtitle="Soluciones digitales profesionales para tu negocio"

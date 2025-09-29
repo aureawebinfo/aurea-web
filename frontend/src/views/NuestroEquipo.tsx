@@ -27,7 +27,7 @@ const NuestroEquipo: React.FC = () => {
       name: "Andres Roa",
       position: "Desarrollador Web",
       description:
-        "Experto en estrategias de negocio con más de 1 año de experiencia.",
+        "experto en marketing digital y seguridad informática.",
       links: {
         github: "https://github.com/Andiuagsfb",
         linkedin: "#",
@@ -39,7 +39,7 @@ const NuestroEquipo: React.FC = () => {
       name: "Edizon Meza",
       position: "Desarrollador Web",
       description:
-        "Apasionada por la tecnología y innovación en desarrollo web.",
+        "desarrollador web full-stack con pasión por crear soluciones digitales impactantes. Profesional en SEO y posicionamiento web.",
       links: {
         github: "https://github.com/edimez14",
         linkedin: "https://www.linkedin.com/in/edizon-meza-leal-abb0361b9/",
@@ -51,7 +51,7 @@ const NuestroEquipo: React.FC = () => {
       name: "John Lievano",
       position: "Desarrollador Web",
       description:
-        "Especialista en soluciones innovadoras y eficientes para web.",
+        "Especialista diseñando y desarrollando sitios web atractivos y funcionales. Especialista en frontend.",
       links: {
         github: "https://github.com/johnlievano",
         linkedin: "#",
@@ -59,11 +59,11 @@ const NuestroEquipo: React.FC = () => {
       }
     },
     {
-      image: "/ruta/a/imagen4.jpg",
+      image: "/img/team/samuel.jpg",
       name: "Samuel Loaiza",
       position: "Desarrollador Web",
       description:
-        "Creando experiencias de usuario excepcionales e interfaces intuitivas.",
+        "desarrollador backend con experiencia en bases de datos y servidores. Apasionado por la optimización y el rendimiento web.",
       links: {
         github: "https://github.com/zoyeras",
         linkedin: "https://www.linkedin.com/in/samueldavidloaiza/",
@@ -103,7 +103,7 @@ const NuestroEquipo: React.FC = () => {
   };
 
   return (
-    <Section id="equipo" variant="secondary" className="py-12 md:py-20">
+    <Section id="team" variant="secondary" className="py-12 md:py-20">
       <SectionHeader 
         title="Nuestro Equipo" 
         subtitle="Profesionales apasionados por crear experiencias web perfectas"

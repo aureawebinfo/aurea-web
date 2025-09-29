@@ -9,36 +9,20 @@ import { motion, AnimatePresence } from "framer-motion";
 const opiniones = [
   {
     id: 1,
-    nombre: "Rosetta",
-    subtitulo: "Tirkenbull",
-    enlace: "#",
-    imagen: "https://placehold.co/120x120/pink/white?text=R",
-    opinion: "¡Servicio mágico! Me hicieron sentir como una princesa con su atención y cuidado en cada detalle."
+    nombre: "Alirio Martinez",
+    subtitulo: "Energias Renovables Polo a Tierra",
+    enlace: "energiaspoloatierra.com",
+    imagen: "/img/clients/foto_alirio.png",
+    opinion: "Son excelentes en lo que hacen y muy profesionales. Mi sitio web quedó increíble."
   },
   {
     id: 2,
-    nombre: "Sadness",
-    subtitulo: "Inside Out",
-    enlace: "#",
-    imagen: "https://placehold.co/120x120/blue/white?text=S",
-    opinion: "Al principio estaba triste, pero su servicio alegró mi día. Todo se resolvió perfectamente."
+    nombre: "Darius",
+    subtitulo: "Proyecto Global Gaia",
+    enlace: "proyectoglobalgaia.com",
+    imagen: "https://placehold.co/120x120/blue/white?text=D",
+    opinion: "El equipo de Aurea Web superó mis expectativas. La atención al detalle y la creatividad son impresionantes."
   },
-  {
-    id: 3,
-    nombre: "Disgust",
-    subtitulo: "Inside Out",
-    enlace: "#",
-    imagen: "https://placehold.co/120x120/green/white?text=D",
-    opinion: "Normalmente soy exigente, pero su trabajo impecable no me dio nada de qué quejarme."
-  },
-  {
-    id: 4,
-    nombre: "Judy",
-    subtitulo: "Air",
-    enlace: "#",
-    imagen: "https://placehold.co/120x120/purple/white?text=J",
-    opinion: "¡Increíble! Superaron todas mis expectativas. Definitivamente recomendaré sus servicios."
-  }
 ];
 
 export default function Opinions() {
@@ -96,7 +80,7 @@ export default function Opinions() {
   };
 
   return (
-    <Section variant="primary">
+    <Section variant="primary" id="opinions">
       <SectionHeader 
         title="Opiniones de clientes" 
         subtitle="Lo que dicen las personas con las que hemos trabajado" 
