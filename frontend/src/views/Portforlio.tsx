@@ -9,43 +9,43 @@ const portfolioProjects = {
   proyectosDestacados: [
     {
       id: 1,
-      image: "/images/proyectos/ecommerce-moda.jpg",
-      title: "Tienda Online de Moda",
-      subtitle: "www.tiendamoda-ejemplo.com",
-      description: "Desarrollo completo de tienda online con carrito de compras, pasarela de pagos y panel administrativo. Incremento del 150% en ventas online.",
-      link: "https://tiendamoda-ejemplo.com"
+      image: "/img/works/pagina-energias-polo-a-tierra.png",
+      title: "Energias Renovables Polo a Tierra",
+      subtitle: "energiaspoloatierra.com",
+      description: "Desarrollo completo de sitio web para empresa de energías renovables, con diseño responsivo, rapida, optimizado para el SEO. Aumento del 40% en consultas de clientes.",
+      link: "https://energiaspoloatierra.com"
     },
     {
       id: 2,
-      image: "/images/proyectos/landing-saas.jpg", 
-      title: "Plataforma SaaS Empresarial",
-      subtitle: "www.saasempresa-ejemplo.com",
-      description: "Aplicación web para gestión de proyectos con dashboard interactivo, reportes en tiempo real y integración con herramientas de productividad.",
-      link: "https://saasempresa-ejemplo.com"
+      image: "/img/works/pagina-proyecto-global-gaia.png",
+      title: "Proyecto Global Gaia",
+      subtitle: "proyectoglobalgaia.com",
+      description: "Sitio web informativo de una organizacion de ayuda social, con diseño responsive, optimizado para SEO. Incremento del 25% en participación comunitaria.",
+      link: "https://proyectoglobalgaia.com"
     },
     {
       id: 3,
-      image: "/images/proyectos/portfolio-artista.jpg",
-      title: "Portafolio Digital para Artista",
-      subtitle: "www.artista-portfolio.com",
-      description: "Sitio web galería con animaciones fluidas y diseño minimalista que resalta el trabajo artístico. Optimizado para máxima velocidad y experiencia visual.",
-      link: "https://artista-portfolio.com"
+      image: "/img/works/plantilla-dentista.png",
+      title: "Plantilla Web para Dentista",
+      subtitle: "https://aureawebinfo.github.io/plantilla-dentista/",
+      description: "Plantilla web profesional para dentistas, con diseño moderno y funcional. Incluye secciones para servicios, equipo, testimonios y contacto. optimizada para SEO.",
+      link: "https://aureawebinfo.github.io/plantilla-dentista/"
     },
     {
       id: 4,
-      image: "/images/proyectos/app-educativa.jpg",
+      image: "/img/works/ejemplo_2.jpg",
       title: "Aplicación Educativa Interactiva",
-      subtitle: "www.appeducativa-ejemplo.com",
+      subtitle: "www.aurea-web.com",
       description: "Plataforma de aprendizaje con cursos interactivos, seguimiento de progreso y comunidad de estudiantes. Más de 10,000 usuarios activos mensuales.",
-      link: "https://appeducativa-ejemplo.com"
+      link: "https://aurea-web.com"
     },
     {
       id: 5,
-      image: "/images/proyectos/portfolio-artista.jpg",
+      image: "/img/works/ejemplo_3.jpg",
       title: "Portafolio Digital para Artista",
-      subtitle: "www.artista-portfolio.com",
+      subtitle: "www.aurea-web.com",
       description: "Sitio web galería con animaciones fluidas y diseño minimalista que resalta el trabajo artístico. Optimizado para máxima velocidad y experiencia visual.",
-      link: "https://artista-portfolio.com"
+      link: "https://aurea-web.com"
     }
   ]
 };
