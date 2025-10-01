@@ -12,8 +12,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  build: {
-    // Optimizaciones para SEO
-    minify: 'terser',
-  },
 })

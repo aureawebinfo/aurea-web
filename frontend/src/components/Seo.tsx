@@ -1,5 +1,9 @@
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import React from "react";
+import {
+  Title,
+  Meta,
+  Link,
+} from "react-head";
 
 interface SeoProps {
   title?: string;
@@ -19,57 +23,74 @@ const Seo: React.FC<SeoProps> = ({
   ogImage = "/logo_aurea_name.png",
   ogType = "website",
   twitterCard = "summary_large_image",
-  keywords = ["desarrollo web", "html", "css", "javascript", "React", "TypeScript", "Vite", "aurea web"],
-  noIndex = false
+  keywords = [
+    "desarrollo web",
+    "html",
+    "css",
+    "javascript",
+    "React",
+    "TypeScript",
+    "Vite",
+    "aurea web",
+  ],
+  noIndex = false,
 }) => {
-  const fullTitle = title.includes("Aurea Web") ? title : `${title} | Aurea Web`;
-  const fullImageUrl = ogImage.startsWith('http') ? ogImage : `https://aurea-web.com${ogImage}`;
+  const fullTitle = title.includes("Aurea Web")
+    ? title
+    : `${title} | Aurea Web`;
+
+  const fullImageUrl = ogImage.startsWith("http")
+    ? ogImage
+    : `https://aurea-web.com${ogImage}`;
 
   return (
-    <Helmet>
-      {/* Metadatos básicos */}
-      <title>{fullTitle}</title>
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords.join(', ')} />
-      
-      {/* Canonical URL */}
-      <link rel="canonical" href={canonicalUrl} />
-      
+    <>
+      {/* Básicos */}
+      <Title>{fullTitle}</Title>
+      <Meta name="description" content={description} />
+      <Meta name="keywords" content={keywords.join(", ")} />
+
+      {/* Canonical */}
+      <Link rel="canonical" href={canonicalUrl} />
+
       {/* Open Graph */}
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
-      <meta property="og:url" content={canonicalUrl} />
-      <meta property="og:type" content={ogType} />
-      <meta property="og:image" content={fullImageUrl} />
-      <meta property="og:site_name" content="Aurea Web" />
-      <meta property="og:locale" content="es_ES" />
-      
-      {/* Twitter Card */}
-      <meta name="twitter:card" content={twitterCard} />
-      <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={fullImageUrl} />
-      
+      <Meta property="og:title" content={fullTitle} />
+      <Meta property="og:description" content={description} />
+      <Meta property="og:url" content={canonicalUrl} />
+      <Meta property="og:type" content={ogType} />
+      <Meta property="og:image" content={fullImageUrl} />
+      <Meta property="og:site_name" content="Aurea Web" />
+      <Meta property="og:locale" content="es_ES" />
+
+      {/* Twitter */}
+      <Meta name="twitter:card" content={twitterCard} />
+      <Meta name="twitter:title" content={fullTitle} />
+      <Meta name="twitter:description" content={description} />
+      <Meta name="twitter:image" content={fullImageUrl} />
+
       {/* Robots */}
-      <meta name="robots" content={noIndex ? "noindex, nofollow" : "index, follow"} />
-      
-      {/* Schema.org para Aurea Web */}
+      <Meta
+        name="robots"
+        content={noIndex ? "noindex, nofollow" : "index, follow"}
+      />
+
+      {/* Schema.org */}
       <script type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
-          "name": "Aurea Web",
-          "url": "https://aurea-web.com",
-          "logo": "https://aurea-web.com/logo_aurea_name.png",
-          "description": description,
-          "sameAs": [],
-          "contactPoint": {
+          name: "Aurea Web",
+          url: "https://aurea-web.com",
+          logo: "https://aurea-web.com/logo_aurea_name.png",
+          description,
+          sameAs: [],
+          contactPoint: {
             "@type": "ContactPoint",
-            "contactType": "customer service"
-          }
+            contactType: "customer service",
+          },
         })}
       </script>
-    </Helmet>
+    </>
   );
 };
 
