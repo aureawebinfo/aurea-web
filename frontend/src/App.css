@@ -22,6 +22,38 @@
   --color-text: #f0f0f0; /* Blanco suave */
 }
 
+/* En tu archivo global.css */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+/* Efectos glassmorphism mejorados */
+.backdrop-blur-md {
+  backdrop-filter: blur(12px);
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
 @layer base {
   * {
     border-color: var(--color-gold);
