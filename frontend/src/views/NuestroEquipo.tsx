@@ -23,7 +23,7 @@ const NuestroEquipo: React.FC = () => {
 
   const teamMembers: TeamMember[] = [
     {
-      image: "/img/team/andres.png",
+      image: "/img/team/andres.jpeg",
       name: "Andres Roa",
       position: "Desarrollador Web",
       description: "Experto en marketing digital y seguridad informática.",
@@ -74,7 +74,7 @@ const NuestroEquipo: React.FC = () => {
       setCurrentIndex((prevIndex) =>
         prevIndex === teamMembers.length - 1 ? 0 : prevIndex + 1
       );
-    }, 5000);
+    }, 15000);
 
     return () => clearInterval(interval);
   }, [teamMembers.length]);
