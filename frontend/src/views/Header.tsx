@@ -2,7 +2,7 @@ import { useState } from "react";
 import Logo from "../components/Logo";
 import NavLink from "../components/NavLink";
 import ThemeToggle from "../components/ThemeToggle";
-import Button from "../components/Button";
+// import Button from "../components/Button";
 import MobileMenu from "../components/MobileMenu";
 import DynamicIcon from "../components/DynamicIcon";
 
@@ -36,7 +36,6 @@ export default function Header() {
 
               <div className="hidden md:flex items-center gap-3">
                 <ThemeToggle />
-                <Button>Contacto</Button>
               </div>
 
               <button

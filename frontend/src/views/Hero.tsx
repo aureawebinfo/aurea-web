@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import Title from "@/components/Title";
 import Text from "@/components/Text";
@@ -171,7 +170,7 @@ export default function Hero() {
             viewport={{ once: true, amount: 0.8 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.18 }}
           >
-            <Link to="/proyectos" aria-label="Ir a la galería de proyectos">
+            <a href="#portfolio" aria-label="Ir a la galería de proyectos">
               <Button
                 variant="text-icon-outline"
                 whileHover={{ scale: 1.04 }}
@@ -180,7 +179,7 @@ export default function Hero() {
                 <DynamicIcon icon="ArrowRight" size="md" />
                 Trabajos
               </Button>
-            </Link>
+            </a>
           </motion.div>
         </motion.div>
       </div>
