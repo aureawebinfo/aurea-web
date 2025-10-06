@@ -44,6 +44,7 @@ export default function Footer() {
                     href={socialUrls[socialKey]}
                     className="text-[var(--color-text)] hover:text-[var(--color-gold)] transition-colors duration-300"
                     aria-label={social}
+                    target='_blank'
                   >
                     {iconName && <DynamicIcon icon={iconName} size='md' />}
                   </a>
