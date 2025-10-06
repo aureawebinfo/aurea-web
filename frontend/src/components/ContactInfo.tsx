@@ -19,7 +19,7 @@ export default function ContactInfo() {
     { 
       icon: 'Twitter' as keyof typeof DynamicIcon, 
       name: 'Aurea_web', 
-      url: '"https://x.com/Aurea_Web',
+      url: 'https://x.com/Aurea_Web',
       color: 'hover:text-blue-400 dark:hover:text-blue-300'
     },
     { 
@@ -105,7 +105,7 @@ export default function ContactInfo() {
         <div className="w-48 h-48 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 p-1 shadow-lg">
           <div className="w-full h-full rounded-full bg-white dark:bg-gray-800 flex items-center justify-center">
             <img 
-              src="/logo_aurea_name.png" // Ruta de tu logo
+              src="/img/logo_aurea_name.png"
               alt="Áurea Web Logo"
               className="w-full h-full rounded-full object-contain"
             />
