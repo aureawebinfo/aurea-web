@@ -26,7 +26,7 @@ const NuestroEquipo: React.FC = () => {
       image: "/img/team/andres.jpeg",
       name: "Andres Roa",
       position: "Desarrollador Web",
-      description: "Experto en marketing digital y seguridad informática.",
+      description: "Experto en seguridad informática y desarrollo web. Apasionado por crear aplicaciones seguras y eficientes.",
       links: {
         github: "https://github.com/Andiuagsfb",
         linkedin: "#",
