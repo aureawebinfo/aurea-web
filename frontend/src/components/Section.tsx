@@ -23,7 +23,7 @@ export default function Section({
       "bg-secondary/90 dark:bg-secondary/80 backdrop-blur-sm text-color-text",
     tertiary:
       "bg-tertiary/90 dark:bg-tertiary/80 backdrop-blur-sm text-color-text",
-tertiary:
+fourth:
       "bg-fourth dark:bg-fourth backdrop-blur-sm text-color-text",
   };
 
