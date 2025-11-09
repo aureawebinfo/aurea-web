@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 interface SectionProps {
   children: React.ReactNode;
   className?: string;
-  variant?: "primary" | "secondary" | "tertiary";
+  variant?: "primary" | "secondary" | "tertiary" | "fourth";
   id?: string;
 }
 
@@ -23,6 +23,8 @@ export default function Section({
       "bg-secondary/90 dark:bg-secondary/80 backdrop-blur-sm text-color-text",
     tertiary:
       "bg-tertiary/90 dark:bg-tertiary/80 backdrop-blur-sm text-color-text",
+tertiary:
+      "bg-fourth dark:bg-fourth backdrop-blur-sm text-color-text",
   };
 
   return (

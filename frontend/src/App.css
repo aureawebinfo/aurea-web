@@ -4,25 +4,50 @@
 /* Variables CSS esenciales para el tema */
 :root {
   /* === Tema Claro === */
-  --color-gold: #d4af37; /* Dorado */
-  --color-primary: #f8f8f5; /* Blanco pastel */
-  --color-secondary: #1b9a8f; /* Azul claro pastel */
-  --color-tertiary: #ffd700; /* Dorado brillante */
-  --color-text: #333333; /* Negro suave */
-  --color-shadow: rgba(0, 0, 0, 0.1); /* Sombras suaves */
+  --color-gold: #d4af37;
+  --color-primary: #f8f8f5;
+  --color-secondary: #1b9a8f;
+  --color-tertiary: #ffd700;
+  --color-fourth: transparent;
+  --color-text: #333333;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  /* Gradiente para tema claro */
+  --bg-radial: linear-gradient(
+    112deg,
+    rgba(255, 255, 255, 1) 20%,
+    rgba(87, 199, 133, 1) 50%,
+    rgba(255, 255, 255, 1) 80%
+  );
 }
 
 .dark {
   /* === Tema Oscuro === */
-  --color-gold: #ffc300; /* Dorado brillante neón */
-  --color-primary: #0a0a0a; /* Negro noche */
-  --color-secondary: #022f2c; /* Degradado azul oscuro elegante */
-  --color-tertiary: #ffd60a; /* Dorado neón */
-  --color-shadow: rgba(255, 195, 0, 0.15); /* Sombras doradas sutiles */
-  --color-text: #f0f0f0; /* Blanco suave */
+  --color-gold: #ffc300;
+  --color-primary: #0a0a0a;
+  --color-secondary: #022f2c;
+  --color-tertiary: #ffd60a;
+  --color-fourth: transparent;
+  --color-shadow: rgba(255, 195, 0, 0.15);
+  --color-text: #f0f0f0;
+  /* Gradiente para tema oscuro */
+  --bg-radial: linear-gradient(
+    112deg,
+    rgba(0, 0, 0, 1) 20%,
+    rgba(16, 125, 62, 1) 50%,
+    rgba(0, 0, 0, 1) 80%
+  );
 }
 
-/* En tu archivo global.css */
+/* Aplicar el gradiente al body */
+body {
+  background: var(--bg-radial);
+  background-color: var(--color-primary); /* Fallback sólido */
+  color: var(--color-text);
+  transition: background 0.6s ease, color 0.6s ease;
+  min-height: 100vh;
+}
+
+/* Resto de tus estilos... */
 .perspective-1000 {
   perspective: 1000px;
 }
@@ -31,7 +56,6 @@
   transform-style: preserve-3d;
 }
 
-/* Efectos glassmorphism mejorados */
 .backdrop-blur-md {
   backdrop-filter: blur(12px);
 }
@@ -50,28 +74,19 @@
   overflow: hidden;
 }
 
-.perspective-1000 {
-  perspective: 1000px;
-}
-
 @layer base {
   * {
     border-color: var(--color-gold);
     transition: border-color 0.6s ease;
   }
-  body {
-    background-color: var(--color-primary);
-    color: var(--color-text);
-    transition: background-color 0.6s ease, color 0.6s ease;
-  }
 }
 
 @theme {
-  /* Mapear tus variables para usarlas con utilidades Tailwind */
   --color-gold: var(--color-gold);
   --color-primary: var(--color-primary);
   --color-secondary: var(--color-secondary);
   --color-tertiary: var(--color-tertiary);
+  --color-fourth: var(--color-fourth);
   --color-text: var(--color-text);
   --color-shadow: var(--color-shadow);
 }

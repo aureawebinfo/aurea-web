@@ -9,7 +9,7 @@ import DynamicIcon from "@/components/DynamicIcon";
 
 export default function Contact() {
     return (
-        <Section variant="secondary" id="contact">
+        <Section variant="fourth" id="contact">
             <SectionHeader 
                 title="Contáctanos" 
                 subtitle="Estamos aquí para hacer realidad tu proyecto web."
