@@ -90,7 +90,7 @@ export default function ContactInfo() {
           </h3>
         </div>
         <div className="w-16 h-1 bg-amber-500 mx-auto mb-4"></div>
-        <p className="text-gray-600 dark:text-gray-300 text-sm">
+        <p className="text-sm">
           Estamos aquí para ayudarte. ¡Contáctanos por cualquier medio!
         </p>
       </motion.div>
@@ -154,7 +154,7 @@ export default function ContactInfo() {
         transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
         className="mb-4"
       >
-        <h4 className="text-center font-semibold text-gray-700 dark:text-gray-300 mb-4">
+        <h4 className="text-center font-semibold mb-4">
           Síguenos en redes sociales
         </h4>
         <div className="grid grid-cols-3 gap-3">
@@ -198,7 +198,7 @@ export default function ContactInfo() {
         transition={{ duration: 0.5, delay: 0.8, ease: "easeOut" }}
         className="mt-4 text-center"
       >
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm">
           ¡Conectemos y creemos algo increíble juntos!
         </p>
       </motion.div>
