@@ -1,11 +1,14 @@
 // ContactForm.tsx
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { useState } from 'react';
+import { useState, useCallback, useMemo, lazy, Suspense } from 'react';
 import emailjs from '@emailjs/browser';
-import DynamicIcon from './DynamicIcon';
 
-const countryCodes = [
+// Lazy load del componente DynamicIcon
+const DynamicIcon = lazy(() => import('./DynamicIcon'));
+
+// Constantes fuera del componente para evitar re-creaciones
+const COUNTRY_CODES = [
   { code: '+57', country: 'Colombia', flag: '🇨🇴' },
   { code: '+1', country: 'Estados Unidos', flag: '🇺🇸' },
   { code: '+52', country: 'México', flag: '🇲🇽' },
@@ -24,32 +27,68 @@ const countryCodes = [
   { code: '+39', country: 'Italia', flag: '🇮🇹' },
 ];
 
+// Configuración de animaciones memoizada
+const ANIMATION_CONFIG = {
+  container: {
+    initial: { opacity: 0, y: 50 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -50 },
+    transition: { duration: 0.8, ease: "easeOut" }
+  },
+  field: (delay: number) => ({
+    initial: { opacity: 0, x: -30 },
+    animate: { opacity: 1, x: 0 },
+    transition: { duration: 0.6, delay, ease: "easeOut" }
+  }),
+  button: {
+    initial: { opacity: 0, scale: 0.8 },
+    animate: { opacity: 1, scale: 1 },
+    transition: { duration: 0.5, delay: 0.6, ease: "easeOut" }
+  }
+};
+
+// Estado inicial como constante
+const INITIAL_FORM_STATE = {
+  name: '',
+  email: '',
+  country: '+57',
+  phone: '',
+  message: ''
+};
+
+// EmailJS config
+const EMAILJS_CONFIG = {
+  serviceId: 'service_fez450d',
+  templateId: 'template_2gc9kmk',
+  publicKey: '1zLasq5F6TbePRnDX',
+  toEmail: 'aureawebinfo@gmail.com'
+} as const;
+
 export default function ContactForm() {
   const [ref, inView] = useInView({
     threshold: 0.3,
     triggerOnce: true
   });
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    country: '+57',
-    phone: '',
-    message: ''
-  });
-
+  const [formData, setFormData] = useState(INITIAL_FORM_STATE);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  // Memoizar handleChange para evitar re-creaciones
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Memoizar handleSubmit
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (isSubmitting) return; // Prevenir doble envío
+    
     setIsSubmitting(true);
 
     try {
@@ -59,56 +98,77 @@ export default function ContactForm() {
         country: formData.country,
         phone: formData.phone,
         message: formData.message,
-        to_email: 'aureawebinfo@gmail.com'
+        to_email: EMAILJS_CONFIG.toEmail
       };
 
       await emailjs.send(
-        'service_fez450d',
-        'template_2gc9kmk',
+        EMAILJS_CONFIG.serviceId,
+        EMAILJS_CONFIG.templateId,
         templateParams,
-        '1zLasq5F6TbePRnDX'
+        EMAILJS_CONFIG.publicKey
       );
 
       setSubmitStatus('success');
-      setFormData({ name: '', email: '', country: '+57', phone: '', message: '' });
+      setFormData(INITIAL_FORM_STATE);
     } catch (error) {
       setSubmitStatus('error');
       console.error('Error sending email:', error);
     } finally {
       setIsSubmitting(false);
-      setTimeout(() => setSubmitStatus('idle'), 5000);
+      // Usar requestIdleCallback para operaciones no críticas
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+          setTimeout(() => setSubmitStatus('idle'), 5000);
+        });
+      } else {
+        setTimeout(() => setSubmitStatus('idle'), 5000);
+      }
     }
-  };
+  }, [formData, isSubmitting]);
+
+  // Memoizar estilos del contenedor
+  const containerStyle = useMemo(() => ({
+    background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(254,243,199,0.05) 100%)'
+  }), []);
+
+  // Memoizar las opciones del select para evitar re-renders
+  const countryOptions = useMemo(() => 
+    COUNTRY_CODES.map((country) => (
+      <option key={country.code} value={country.code}>
+        {country.flag} {country.code}
+      </option>
+    ))
+  , []);
+
+  // Memoizar las clases CSS que se repiten
+  const inputClassName = "w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-amber-300 dark:border-amber-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent backdrop-blur-sm text-gray-900 dark:text-white transition-all duration-300";
+  const labelClassName = "block text-sm font-medium text-amber-600 dark:text-amber-400 mb-2";
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      exit={{ opacity: 0, y: -50 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      {...ANIMATION_CONFIG.container}
+      animate={inView ? ANIMATION_CONFIG.container.animate : ANIMATION_CONFIG.container.initial}
       className="w-full max-w-md mx-auto bg-white/10 dark:bg-gray-900/20 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-amber-400/30"
-      style={{
-        background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(254,243,199,0.05) 100%)'
-      }}
+      style={containerStyle}
     >
       <motion.h2
-        initial={{ opacity: 0, x: -30 }}
-        animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+        {...ANIMATION_CONFIG.field(0.1)}
+        animate={inView ? ANIMATION_CONFIG.field(0.1).animate : ANIMATION_CONFIG.field(0.1).initial}
         className="text-2xl font-bold text-amber-700 dark:text-amber-300 mb-6 text-center"
       >
-        <DynamicIcon icon="Mail" size="md" className="inline-block mr-2" /> Escríbenos
+        <Suspense fallback={<span className="inline-block w-6 h-6 mr-2" />}>
+          <DynamicIcon icon="Mail" size="md" className="inline-block mr-2" />
+        </Suspense> Escríbenos
       </motion.h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Nombre */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          {...ANIMATION_CONFIG.field(0.2)}
+          animate={inView ? ANIMATION_CONFIG.field(0.2).animate : ANIMATION_CONFIG.field(0.2).initial}
         >
-          <label htmlFor="name" className="block text-sm font-medium text-amber-600 dark:text-amber-400 mb-2">
+          <label htmlFor="name" className={labelClassName}>
             Nombre completo
           </label>
           <input
@@ -118,18 +178,17 @@ export default function ContactForm() {
             required
             value={formData.name}
             onChange={handleChange}
-            className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-amber-300 dark:border-amber-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent backdrop-blur-sm text-gray-900 dark:text-white transition-all duration-300"
+            className={inputClassName}
             placeholder="Tu nombre"
           />
         </motion.div>
 
         {/* Email */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+          {...ANIMATION_CONFIG.field(0.3)}
+          animate={inView ? ANIMATION_CONFIG.field(0.3).animate : ANIMATION_CONFIG.field(0.3).initial}
         >
-          <label htmlFor="email" className="block text-sm font-medium text-amber-600 dark:text-amber-400 mb-2">
+          <label htmlFor="email" className={labelClassName}>
             Correo electrónico
           </label>
           <input
@@ -139,20 +198,19 @@ export default function ContactForm() {
             required
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-amber-300 dark:border-amber-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent backdrop-blur-sm text-gray-900 dark:text-white transition-all duration-300"
+            className={inputClassName}
             placeholder="tu@email.com"
           />
         </motion.div>
 
         {/* Teléfono con código de país */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+          {...ANIMATION_CONFIG.field(0.4)}
+          animate={inView ? ANIMATION_CONFIG.field(0.4).animate : ANIMATION_CONFIG.field(0.4).initial}
           className="grid grid-cols-3 gap-3"
         >
           <div>
-            <label htmlFor="country" className="block text-sm font-medium text-amber-600 dark:text-amber-400 mb-2">
+            <label htmlFor="country" className={labelClassName}>
               País
             </label>
             <select
@@ -162,15 +220,11 @@ export default function ContactForm() {
               onChange={handleChange}
               className="w-full px-3 py-3 bg-white/50 dark:bg-gray-800/50 border border-amber-300 dark:border-amber-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent backdrop-blur-sm text-gray-900 dark:text-white transition-all duration-300"
             >
-              {countryCodes.map((country) => (
-                <option key={country.code} value={country.code}>
-                  {country.flag} {country.code}
-                </option>
-              ))}
+              {countryOptions}
             </select>
           </div>
           <div className="col-span-2">
-            <label htmlFor="phone" className="block text-sm font-medium text-amber-600 dark:text-amber-400 mb-2">
+            <label htmlFor="phone" className={labelClassName}>
               Número de teléfono
             </label>
             <input
@@ -180,7 +234,7 @@ export default function ContactForm() {
               required
               value={formData.phone}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-amber-300 dark:border-amber-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent backdrop-blur-sm text-gray-900 dark:text-white transition-all duration-300"
+              className={inputClassName}
               placeholder="300 123 4567"
             />
           </div>
@@ -188,11 +242,10 @@ export default function ContactForm() {
 
         {/* Mensaje */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-          transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
+          {...ANIMATION_CONFIG.field(0.5)}
+          animate={inView ? ANIMATION_CONFIG.field(0.5).animate : ANIMATION_CONFIG.field(0.5).initial}
         >
-          <label htmlFor="message" className="block text-sm font-medium text-amber-600 dark:text-amber-400 mb-2">
+          <label htmlFor="message" className={labelClassName}>
             Mensaje
           </label>
           <textarea
@@ -202,16 +255,15 @@ export default function ContactForm() {
             required
             value={formData.message}
             onChange={handleChange}
-            className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-amber-300 dark:border-amber-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent backdrop-blur-sm text-gray-900 dark:text-white transition-all duration-300 resize-none"
+            className={`${inputClassName} resize-none`}
             placeholder="Cuéntanos cómo podemos ayudarte..."
           />
         </motion.div>
 
         {/* Botón de enviar */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.5, delay: 0.6, ease: "easeOut" }}
+          {...ANIMATION_CONFIG.button}
+          animate={inView ? ANIMATION_CONFIG.button.animate : ANIMATION_CONFIG.button.initial}
           className="pt-2"
         >
           <button
@@ -219,15 +271,17 @@ export default function ContactForm() {
             disabled={isSubmitting}
             className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 disabled:from-amber-300 disabled:to-amber-400 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 disabled:scale-100 shadow-lg"
           >
-            {isSubmitting ? (
-              <>
-                <DynamicIcon icon="Hourglass" size="sm" className="inline-block mr-2" /> Enviando...
-              </>
-            ) : (
-              <>
-                <DynamicIcon icon="Send" size="sm" className="inline-block mr-2" /> Enviar mensaje
-              </>
-            )}
+            <Suspense fallback={<span className="inline-block w-4 h-4 mr-2" />}>
+              {isSubmitting ? (
+                <>
+                  <DynamicIcon icon="Hourglass" size="sm" className="inline-block mr-2" /> Enviando...
+                </>
+              ) : (
+                <>
+                  <DynamicIcon icon="Send" size="sm" className="inline-block mr-2" /> Enviar mensaje
+                </>
+              )}
+            </Suspense>
           </button>
         </motion.div>
 

@@ -27,26 +27,34 @@ const portfolioProjects = {
       id: 3,
       image: "/img/works/plantilla-dentista.png",
       title: "Plantilla Web para Dentista",
-      subtitle: "https://aureawebinfo.github.io/plantilla-dentista/",
+      subtitle: "https://plantilla-dentista.aurea-web.com",
       description: "Plantilla web profesional para dentistas, con diseño moderno y funcional. Incluye secciones para servicios, equipo, testimonios y contacto. optimizada para SEO.",
-      link: "https://aureawebinfo.github.io/plantilla-dentista/"
+      link: "https://plantilla-dentista.aurea-web.com"
     },
     {
       id: 4,
-      image: "/img/works/ejemplo_2.jpg",
-      title: "Aplicación Educativa Interactiva",
-      subtitle: "www.aurea-web.com",
-      description: "Plataforma de aprendizaje con cursos interactivos, seguimiento de progreso y comunidad de estudiantes. Más de 10,000 usuarios activos mensuales.",
-      link: "https://aurea-web.com"
+      image: "/img/works/plantilla-dentista.png",
+      title: "Plantilla Web para Restaurantes",
+      subtitle: "https://plantilla-restaurante.aurea-web.com",
+      description: "Plantilla web para restaurantes, con diseño atractivo y funcional. Incluye menús, reservas en línea, galería de imágenes y contacto. Optimizada para SEO y experiencia móvil.",
+      link: "https://plantilla-restaurante.aurea-web.com"
     },
     {
       id: 5,
-      image: "/img/works/ejemplo_3.jpg",
-      title: "Portafolio Digital para Artista",
-      subtitle: "www.aurea-web.com",
-      description: "Sitio web galería con animaciones fluidas y diseño minimalista que resalta el trabajo artístico. Optimizado para máxima velocidad y experiencia visual.",
-      link: "https://aurea-web.com"
-    }
+      image: "/img/works/plantilla-dentista.png",
+      title: "Plantilla landing page de veterinaria",
+      subtitle: "https://plantilla-landing-pages-veterinaria.aurea-web.com",
+      description: "Plantilla web profesional para clínicas veterinarias, con diseño moderno y funcional. Incluye secciones para servicios, equipo, testimonios y contacto. optimizada para SEO.",
+      link: "https://plantilla-landing-pages-veterinaria.aurea-web.com"
+    },
+   {
+      id: 6,
+      image: "/img/works/plantilla-dentista.png",
+      title: "Plantilla Web de un Catalogo de ¨Poductos",
+      subtitle: "https://plantilla-catalogo.aurea-web.com",
+      description: "Plantilla web para catalogo de productos, con diseño atractivo y funcional. Incluye secciones para productos, categorias, galería de imágenes y contacto. Optimizada para SEO y experiencia móvil.",
+      link: "https://plantilla-catalogo.aurea-web.com"
+    },
   ]
 };
 
