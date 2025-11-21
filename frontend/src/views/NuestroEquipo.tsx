@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import Section from "@/components/Section";
 import SectionHeader from "@/components/SectionHeader";
@@ -17,11 +17,58 @@ interface TeamMember {
   };
 }
 
+// Componente para lazy loading de imágenes
+const LazyImage: React.FC<{
+  src: string;
+  alt: string;
+  className?: string;
+  onLoad?: () => void;
+}> = React.memo(({ src, alt, className, onLoad }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [imageSrc, setImageSrc] = useState<string>("");
+
+  useEffect(() => {
+    // Crear un objeto Image para precargar
+    const img = new Image();
+    img.src = src;
+    
+    img.onload = () => {
+      setImageSrc(src);
+      setIsLoaded(true);
+      onLoad?.();
+    };
+
+    return () => {
+      img.onload = null;
+    };
+  }, [src, onLoad]);
+
+  return (
+    <>
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-primary/50 animate-pulse" />
+      )}
+      {imageSrc && (
+        <img
+          src={imageSrc}
+          alt={alt}
+          className={`${className} ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}
+          loading="lazy"
+          decoding="async"
+        />
+      )}
+    </>
+  );
+});
+
+LazyImage.displayName = 'LazyImage';
+
 const NuestroEquipo: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [preloadedImages, setPreloadedImages] = useState<Set<number>>(new Set([0]));
 
-  const teamMembers: TeamMember[] = [
+  const teamMembers: TeamMember[] = useMemo(() => [
     {
       image: "/img/team/andres.jpeg",
       name: "Andres Roa",
@@ -66,7 +113,30 @@ const NuestroEquipo: React.FC = () => {
         portfolio: "https://portafolio-xi-three-59.vercel.app/"
       }
     },
-  ];
+  ], []);
+
+  // Precargar la siguiente imagen
+  useEffect(() => {
+    const nextIndex = (currentIndex + 1) % teamMembers.length;
+    const prevIndex = currentIndex === 0 ? teamMembers.length - 1 : currentIndex - 1;
+    
+    // Precargar imagen siguiente y anterior
+    if (!preloadedImages.has(nextIndex)) {
+      const img = new Image();
+      img.src = teamMembers[nextIndex].image;
+      img.onload = () => {
+        setPreloadedImages(prev => new Set(prev).add(nextIndex));
+      };
+    }
+    
+    if (!preloadedImages.has(prevIndex)) {
+      const img = new Image();
+      img.src = teamMembers[prevIndex].image;
+      img.onload = () => {
+        setPreloadedImages(prev => new Set(prev).add(prevIndex));
+      };
+    }
+  }, [currentIndex, teamMembers, preloadedImages]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -79,27 +149,29 @@ const NuestroEquipo: React.FC = () => {
     return () => clearInterval(interval);
   }, [teamMembers.length]);
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
     setDirection(0);
     setCurrentIndex(
       currentIndex === teamMembers.length - 1 ? 0 : currentIndex + 1
     );
-  };
+  }, [currentIndex, teamMembers.length]);
 
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
     setDirection(1);
     setCurrentIndex(
       currentIndex === 0 ? teamMembers.length - 1 : currentIndex - 1
     );
-  };
+  }, [currentIndex, teamMembers.length]);
 
-  const goToSlide = (index: number) => {
+  const goToSlide = useCallback((index: number) => {
     setDirection(index > currentIndex ? 0 : 1);
     setCurrentIndex(index);
-  };
+  }, [currentIndex]);
+
+  const currentMember = teamMembers[currentIndex];
 
   return (
-    <Section id="team" variant="secondary" className="py-8 md:py-20">
+    <Section id="team" variant="fourth" className="py-8 md:py-20">
       <SectionHeader 
         title="Nuestro Equipo" 
         subtitle="Profesionales apasionados por crear experiencias web perfectas"
@@ -143,9 +215,9 @@ const NuestroEquipo: React.FC = () => {
                   transition={{ type: "spring", stiffness: 300 }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-gold/10 to-transparent z-10" />
-                  <img
-                    src={teamMembers[currentIndex].image}
-                    alt={teamMembers[currentIndex].name}
+                  <LazyImage
+                    src={currentMember.image}
+                    alt={currentMember.name}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute bottom-0 left-0 right-0 h-6 md:h-12 bg-gradient-to-t from-black/70 to-transparent" />
@@ -160,7 +232,7 @@ const NuestroEquipo: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  {teamMembers[currentIndex].name}
+                  {currentMember.name}
                 </motion.h3>
                 
                 <motion.p 
@@ -169,7 +241,7 @@ const NuestroEquipo: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  {teamMembers[currentIndex].position}
+                  {currentMember.position}
                 </motion.p>
                 
                 <motion.p 
@@ -178,7 +250,7 @@ const NuestroEquipo: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
                 >
-                  {teamMembers[currentIndex].description}
+                  {currentMember.description}
                 </motion.p>
 
                 {/* Botones de redes */}
@@ -189,7 +261,7 @@ const NuestroEquipo: React.FC = () => {
                   transition={{ delay: 0.5 }}
                 >
                   <a 
-                    href={teamMembers[currentIndex].links.github}
+                    href={currentMember.links.github}
                     target="_blank" 
                     rel="noopener noreferrer"
                   >
@@ -198,7 +270,7 @@ const NuestroEquipo: React.FC = () => {
                     </Button>
                   </a>
                   <a 
-                    href={teamMembers[currentIndex].links.linkedin}
+                    href={currentMember.links.linkedin}
                     target="_blank" 
                     rel="noopener noreferrer"
                   >
@@ -207,7 +279,7 @@ const NuestroEquipo: React.FC = () => {
                     </Button>
                   </a>
                   <a 
-                    href={teamMembers[currentIndex].links.portfolio}
+                    href={currentMember.links.portfolio}
                     target="_blank" 
                     rel="noopener noreferrer"
                   >
@@ -270,4 +342,4 @@ const NuestroEquipo: React.FC = () => {
   );
 };
 
-export default NuestroEquipo;
+export default React.memo(NuestroEquipo);

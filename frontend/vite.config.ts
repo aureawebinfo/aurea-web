@@ -12,4 +12,16 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'motion': ['motion/react'],
+        }
+      }
+    }
+  },
+  optimizeDeps: {
+    include: ['motion/react']
+  }
 })

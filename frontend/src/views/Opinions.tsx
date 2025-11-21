@@ -92,7 +92,7 @@ export default function Opinions() {
   };
 
   return (
-    <Section variant="primary" id="opinions" className="py-8 md:py-12">
+    <Section variant="fourth" id="opinions" className="py-8 md:py-12">
       <SectionHeader 
         title="Opiniones de clientes" 
         subtitle="Lo que dicen las personas con las que hemos trabajado" 

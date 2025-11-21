@@ -1,7 +1,70 @@
 // ContactInfo.tsx
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import DynamicIcon from './DynamicIcon';
+import { lazy, Suspense, memo,useCallback } from 'react';
+import type { IconName } from "./DynamicIcon";
+
+// Optimización: Lazy loading del componente DynamicIcon para reducir bundle inicial
+const DynamicIcon = lazy(() => import('./DynamicIcon'));
+
+// Optimización: Mover constantes fuera del componente para evitar re-creaciones
+const SOCIAL_MEDIA: {
+  icon: IconName;
+  name: string;
+  url: string;
+  color: string;
+  customIcon?: boolean;
+}[] = [
+  { 
+    icon: 'Github', 
+    name: 'aureawebinfo', 
+    url: 'https://github.com/aureawebinfo',
+    color: 'hover:text-gray-700 dark:hover:text-gray-300'
+  },
+  { 
+    icon: 'Twitter', 
+    name: 'Aurea_web', 
+    url: 'https://x.com/Aurea_Web',
+    color: 'hover:text-blue-400 dark:hover:text-blue-300'
+  },
+  { 
+    icon: 'Instagram', 
+    name: 'aurea.web', 
+    url: 'https://www.instagram.com/aurea.web/',
+    color: 'hover:text-pink-600 dark:hover:text-pink-400'
+  },
+  { 
+    icon: 'Linkedin', 
+    name: 'Aurea web', 
+    url: 'https://www.linkedin.com/in/%C3%A1urea-web-s-a-s-403861384/',
+    color: 'hover:text-blue-600 dark:hover:text-blue-400'
+  },
+  { 
+    icon: 'Facebook', 
+    name: 'Facebook', 
+    url: '#',
+    color: 'hover:text-blue-600 dark:hover:text-blue-400'
+  },
+];
+
+const tiktok = { 
+    icon: 'Tiktok', 
+    name: '@aurea_web', 
+    url: 'https://www.tiktok.com/@aurea_web',
+    color: 'hover:text-black dark:hover:text-white',
+    customIcon: true
+  };
+
+// Optimización: Memoizar componente TikTok para evitar re-renders innecesarios
+const TiktokIcon = memo(({ className = "w-6 h-6" } : { className?: string }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    className={`text-gold dark:text-gold ${className}`}
+    fill="currentColor"
+  >
+    <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 10.692 6.33 6.33 0 0 0 10.857-4.424V8.687a8.182 8.182 0 0 0 4.773 1.526V6.79a4.831 4.831 0 0 1-3.77-1.105zm4.773 1.526z"/>
+  </svg>
+));
 
 export default function ContactInfo() {
   const [ref, inView] = useInView({
@@ -9,70 +72,24 @@ export default function ContactInfo() {
     triggerOnce: true
   });
 
-  const socialMedia = [
-    { 
-      icon: 'Github' as keyof typeof DynamicIcon, 
-      name: 'aureawebinfo', 
-      url: 'https://github.com/aureawebinfo',
-      color: 'hover:text-gray-700 dark:hover:text-gray-300'
-    },
-    { 
-      icon: 'Twitter' as keyof typeof DynamicIcon, 
-      name: 'Aurea_web', 
-      url: 'https://x.com/Aurea_Web',
-      color: 'hover:text-blue-400 dark:hover:text-blue-300'
-    },
-    { 
-      icon: 'Instagram' as keyof typeof DynamicIcon, 
-      name: 'aurea.web', 
-      url: 'https://www.instagram.com/aurea.web/',
-      color: 'hover:text-pink-600 dark:hover:text-pink-400'
-    },
-    { 
-      icon: 'Linkedin' as keyof typeof DynamicIcon, 
-      name: 'Aurea web', 
-      url: 'https://www.linkedin.com/in/%C3%A1urea-web-s-a-s-403861384/',
-      color: 'hover:text-blue-600 dark:hover:text-blue-400'
-    },
-    { 
-      icon: 'Facebook' as keyof typeof DynamicIcon, 
-      name: 'Facebook', 
-      url: '#',
-      color: 'hover:text-blue-600 dark:hover:text-blue-400'
-    },
-    { 
-      icon: 'Tiktok' as keyof typeof DynamicIcon, 
-      name: '@aurea_web', 
-      url: 'https://www.tiktok.com/@aurea_web',
-      color: 'hover:text-black dark:hover:text-white',
-      customIcon: true
-    }
-  ];
+  const socialMedia = [...SOCIAL_MEDIA, tiktok]; // Optimización: Usar referencia a constante
 
-  const openWhatsApp = () => {
+  // Optimización: Memoizar callbacks para evitar re-creaciones
+  const openWhatsApp = useCallback(() => {
     window.open('https://wa.me/573002477019', '_blank');
-  };
+  }, []);
 
-  const openEmail = () => {
+  const openEmail = useCallback(() => {
     window.open('mailto:aureawebinfo@gmail.com', '_blank');
-  };
+  }, []);
 
-  // Componente SVG personalizado para TikTok
-  const TiktokIcon = ({ className = "w-6 h-6" }) => (
-    <svg 
-      viewBox="0 0 24 24" 
-      className={`text-gold dark:text-gold ${className}`}
-      fill="currentColor"
-    >
-      <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 10.692 6.33 6.33 0 0 0 10.857-4.424V8.687a8.182 8.182 0 0 0 4.773 1.526V6.79a4.831 4.831 0 0 1-3.77-1.105zm4.773 1.526z"/>
-    </svg>
-  );
+  // Componente SVG personalizado para TikTok - Ya movido fuera
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      initial={ { opacity: 0, y: 50 } }
+      animate={ inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 } }
       exit={{ opacity: 0, y: -50 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       className="w-full max-w-md mx-auto bg-white/10 dark:bg-gray-900/20 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-amber-200 dark:border-amber-600"
@@ -84,13 +101,16 @@ export default function ContactInfo() {
         className="text-center mb-6"
       >
         <div className="flex flex-col items-center mb-2">
-          <DynamicIcon icon="UserRoundPen" size="md" />
+          {/* Optimización: Suspense para lazy loading */}
+          <Suspense fallback={<div className="w-8 h-8" />}>
+            <DynamicIcon icon="UserRoundPen" size="md" />
+          </Suspense>
           <h3 className="text-xl text-center font-bold text-amber-700 dark:text-amber-300 mb-2">
             Contáctanos
           </h3>
         </div>
         <div className="w-16 h-1 bg-amber-500 mx-auto mb-4"></div>
-        <p className="text-gray-600 dark:text-gray-300 text-sm">
+        <p className="text-sm">
           Estamos aquí para ayudarte. ¡Contáctanos por cualquier medio!
         </p>
       </motion.div>
@@ -108,6 +128,8 @@ export default function ContactInfo() {
               src="/img/logo_aurea_name.png"
               alt="Áurea Web Logo"
               className="w-full h-full rounded-full object-contain"
+              loading="lazy" // Optimización: Lazy loading de imagen
+              decoding="async" // Optimización: Decodificación asíncrona
             />
           </div>
         </div>
@@ -126,7 +148,11 @@ export default function ContactInfo() {
           onClick={openWhatsApp}
           className="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center space-x-3"
         >
-          <span className="text-xl"><DynamicIcon icon="MessageCircleMore" size="md" /></span>
+          <span className="text-xl">
+            <Suspense fallback={<div className="w-6 h-6" />}>
+              <DynamicIcon icon="MessageCircleMore" size="md" />
+            </Suspense>
+          </span>
           <div className="text-left">
             <p className="text-sm font-semibold">WhatsApp</p>
             <p className="text-xs">+57 300 247 7019</p>
@@ -139,7 +165,11 @@ export default function ContactInfo() {
           onClick={openEmail}
           className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center space-x-3"
         >
-          <span className="text-xl"><DynamicIcon icon="Mail" size="md" /></span>
+          <span className="text-xl">
+            <Suspense fallback={<div className="w-6 h-6" />}>
+              <DynamicIcon icon="Mail" size="md" />
+            </Suspense>
+          </span>
           <div className="text-left">
             <p className="text-sm font-semibold">Email</p>
             <p className="text-xs">aureawebinfo@gmail.com</p>
@@ -154,7 +184,7 @@ export default function ContactInfo() {
         transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
         className="mb-4"
       >
-        <h4 className="text-center font-semibold text-gray-700 dark:text-gray-300 mb-4">
+        <h4 className="text-center font-semibold mb-4">
           Síguenos en redes sociales
         </h4>
         <div className="grid grid-cols-3 gap-3">
@@ -178,11 +208,13 @@ export default function ContactInfo() {
               {social.customIcon ? (
                 <TiktokIcon className="w-6 h-6" />
               ) : (
-                <DynamicIcon 
-                  icon={social.icon} 
-                  size="md"
-                  className="text-current"
-                />
+                <Suspense fallback={<div className="w-6 h-6" />}>
+                  <DynamicIcon 
+                    icon={social.icon as IconName} 
+                    size="md"
+                    className="text-current"
+                  />
+                </Suspense>
               )}
               <span className="text-xs mt-1 text-gray-600 dark:text-gray-300">
                 {social.name}
@@ -198,7 +230,7 @@ export default function ContactInfo() {
         transition={{ duration: 0.5, delay: 0.8, ease: "easeOut" }}
         className="mt-4 text-center"
       >
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className="text-sm">
           ¡Conectemos y creemos algo increíble juntos!
         </p>
       </motion.div>
