@@ -27,26 +27,6 @@ const COUNTRY_CODES = [
   { code: '+39', country: 'Italia', flag: '🇮🇹' },
 ];
 
-// Configuración de animaciones memoizada
-const ANIMATION_CONFIG = {
-  container: {
-    initial: { opacity: 0, y: 50 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -50 },
-    transition: { duration: 0.8, ease: "easeOut" }
-  },
-  field: (delay: number) => ({
-    initial: { opacity: 0, x: -30 },
-    animate: { opacity: 1, x: 0 },
-    transition: { duration: 0.6, delay, ease: "easeOut" }
-  }),
-  button: {
-    initial: { opacity: 0, scale: 0.8 },
-    animate: { opacity: 1, scale: 1 },
-    transition: { duration: 0.5, delay: 0.6, ease: "easeOut" }
-  }
-};
-
 // Estado inicial como constante
 const INITIAL_FORM_STATE = {
   name: '',
@@ -147,14 +127,17 @@ export default function ContactForm() {
   return (
     <motion.div
       ref={ref}
-      {...ANIMATION_CONFIG.container}
-      animate={inView ? ANIMATION_CONFIG.container.animate : ANIMATION_CONFIG.container.initial}
+      initial={{ opacity: 0, y: 50 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      exit={{ opacity: 0, y: -50 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       className="w-full max-w-md mx-auto bg-white/10 dark:bg-gray-900/20 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-amber-400/30"
       style={containerStyle}
     >
       <motion.h2
-        {...ANIMATION_CONFIG.field(0.1)}
-        animate={inView ? ANIMATION_CONFIG.field(0.1).animate : ANIMATION_CONFIG.field(0.1).initial}
+        initial={{ opacity: 0, x: -30 }}
+        animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
         className="text-2xl font-bold text-amber-700 dark:text-amber-300 mb-6 text-center"
       >
         <Suspense fallback={<span className="inline-block w-6 h-6 mr-2" />}>
@@ -165,8 +148,9 @@ export default function ContactForm() {
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Nombre */}
         <motion.div
-          {...ANIMATION_CONFIG.field(0.2)}
-          animate={inView ? ANIMATION_CONFIG.field(0.2).animate : ANIMATION_CONFIG.field(0.2).initial}
+          initial={{ opacity: 0, x: -30 }}
+          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
         >
           <label htmlFor="name" className={labelClassName}>
             Nombre completo
@@ -185,8 +169,9 @@ export default function ContactForm() {
 
         {/* Email */}
         <motion.div
-          {...ANIMATION_CONFIG.field(0.3)}
-          animate={inView ? ANIMATION_CONFIG.field(0.3).animate : ANIMATION_CONFIG.field(0.3).initial}
+          initial={{ opacity: 0, x: -30 }}
+          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+          transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
         >
           <label htmlFor="email" className={labelClassName}>
             Correo electrónico
@@ -205,8 +190,9 @@ export default function ContactForm() {
 
         {/* Teléfono con código de país */}
         <motion.div
-          {...ANIMATION_CONFIG.field(0.4)}
-          animate={inView ? ANIMATION_CONFIG.field(0.4).animate : ANIMATION_CONFIG.field(0.4).initial}
+          initial={{ opacity: 0, x: -30 }}
+          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
           className="grid grid-cols-3 gap-3"
         >
           <div>
@@ -242,8 +228,9 @@ export default function ContactForm() {
 
         {/* Mensaje */}
         <motion.div
-          {...ANIMATION_CONFIG.field(0.5)}
-          animate={inView ? ANIMATION_CONFIG.field(0.5).animate : ANIMATION_CONFIG.field(0.5).initial}
+          initial={{ opacity: 0, x: -30 }}
+          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+          transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
         >
           <label htmlFor="message" className={labelClassName}>
             Mensaje
@@ -262,8 +249,9 @@ export default function ContactForm() {
 
         {/* Botón de enviar */}
         <motion.div
-          {...ANIMATION_CONFIG.button}
-          animate={inView ? ANIMATION_CONFIG.button.animate : ANIMATION_CONFIG.button.initial}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+          transition={{ duration: 0.5, delay: 0.6, ease: "easeOut" }}
           className="pt-2"
         >
           <button

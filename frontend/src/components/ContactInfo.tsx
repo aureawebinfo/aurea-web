@@ -1,54 +1,62 @@
 // ContactInfo.tsx
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { lazy, Suspense, memo, useMemo, useCallback } from 'react';
+import { lazy, Suspense, memo,useCallback } from 'react';
+import type { IconName } from "./DynamicIcon";
 
 // Optimización: Lazy loading del componente DynamicIcon para reducir bundle inicial
 const DynamicIcon = lazy(() => import('./DynamicIcon'));
 
 // Optimización: Mover constantes fuera del componente para evitar re-creaciones
-const SOCIAL_MEDIA = [
+const SOCIAL_MEDIA: {
+  icon: IconName;
+  name: string;
+  url: string;
+  color: string;
+  customIcon?: boolean;
+}[] = [
   { 
-    icon: 'Github' as keyof typeof DynamicIcon, 
+    icon: 'Github', 
     name: 'aureawebinfo', 
     url: 'https://github.com/aureawebinfo',
     color: 'hover:text-gray-700 dark:hover:text-gray-300'
   },
   { 
-    icon: 'Twitter' as keyof typeof DynamicIcon, 
+    icon: 'Twitter', 
     name: 'Aurea_web', 
     url: 'https://x.com/Aurea_Web',
     color: 'hover:text-blue-400 dark:hover:text-blue-300'
   },
   { 
-    icon: 'Instagram' as keyof typeof DynamicIcon, 
+    icon: 'Instagram', 
     name: 'aurea.web', 
     url: 'https://www.instagram.com/aurea.web/',
     color: 'hover:text-pink-600 dark:hover:text-pink-400'
   },
   { 
-    icon: 'Linkedin' as keyof typeof DynamicIcon, 
+    icon: 'Linkedin', 
     name: 'Aurea web', 
     url: 'https://www.linkedin.com/in/%C3%A1urea-web-s-a-s-403861384/',
     color: 'hover:text-blue-600 dark:hover:text-blue-400'
   },
   { 
-    icon: 'Facebook' as keyof typeof DynamicIcon, 
+    icon: 'Facebook', 
     name: 'Facebook', 
     url: '#',
     color: 'hover:text-blue-600 dark:hover:text-blue-400'
   },
-  { 
-    icon: 'Tiktok' as keyof typeof DynamicIcon, 
+];
+
+const tiktok = { 
+    icon: 'Tiktok', 
     name: '@aurea_web', 
     url: 'https://www.tiktok.com/@aurea_web',
     color: 'hover:text-black dark:hover:text-white',
     customIcon: true
-  }
-];
+  };
 
 // Optimización: Memoizar componente TikTok para evitar re-renders innecesarios
-const TiktokIcon = memo(({ className = "w-6 h-6" }) => (
+const TiktokIcon = memo(({ className = "w-6 h-6" } : { className?: string }) => (
   <svg 
     viewBox="0 0 24 24" 
     className={`text-gold dark:text-gold ${className}`}
@@ -64,7 +72,7 @@ export default function ContactInfo() {
     triggerOnce: true
   });
 
-  const socialMedia = SOCIAL_MEDIA; // Optimización: Usar referencia a constante
+  const socialMedia = [...SOCIAL_MEDIA, tiktok]; // Optimización: Usar referencia a constante
 
   // Optimización: Memoizar callbacks para evitar re-creaciones
   const openWhatsApp = useCallback(() => {
@@ -77,34 +85,19 @@ export default function ContactInfo() {
 
   // Componente SVG personalizado para TikTok - Ya movido fuera
 
-  // Optimización: Memoizar variantes de animación para evitar re-cálculos
-  const containerAnimation = useMemo(() => ({
-    initial: { opacity: 0, y: 50 },
-    animate: inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 },
-    exit: { opacity: 0, y: -50 },
-    transition: { duration: 0.8, ease: "easeOut" }
-  }), [inView]);
-
-  const slideAnimation = useMemo(() => ({
-    initial: { opacity: 0, x: -30 },
-    animate: inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 },
-    transition: { duration: 0.6, delay: 0.1, ease: "easeOut" }
-  }), [inView]);
-
-  const scaleAnimation = useMemo(() => ({
-    initial: { opacity: 0, scale: 0.9 },
-    animate: inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 },
-    transition: { duration: 0.6, delay: 0.2, ease: "easeOut" }
-  }), [inView]);
-
   return (
     <motion.div
       ref={ref}
-      {...containerAnimation}
+      initial={ { opacity: 0, y: 50 } }
+      animate={ inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 } }
+      exit={{ opacity: 0, y: -50 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       className="w-full max-w-md mx-auto bg-white/10 dark:bg-gray-900/20 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-amber-200 dark:border-amber-600"
     >
       <motion.div
-        {...slideAnimation}
+        initial={{ opacity: 0, x: -30 }}
+        animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
         className="text-center mb-6"
       >
         <div className="flex flex-col items-center mb-2">
@@ -124,7 +117,9 @@ export default function ContactInfo() {
 
       {/* Logo de la empresa */}
       <motion.div
-        {...scaleAnimation}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+        transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
         className="mb-6 flex justify-center"
       >
         <div className="w-48 h-48 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 p-1 shadow-lg">
@@ -215,7 +210,7 @@ export default function ContactInfo() {
               ) : (
                 <Suspense fallback={<div className="w-6 h-6" />}>
                   <DynamicIcon 
-                    icon={social.icon} 
+                    icon={social.icon as IconName} 
                     size="md"
                     className="text-current"
                   />
