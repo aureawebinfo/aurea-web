@@ -4,10 +4,10 @@ import { useInView } from 'react-intersection-observer';
 import { useState, useCallback, useMemo, lazy, Suspense } from 'react';
 import emailjs from '@emailjs/browser';
 
-// Lazy load del componente DynamicIcon
+// Lazy load
 const DynamicIcon = lazy(() => import('./DynamicIcon'));
 
-// Constantes fuera del componente para evitar re-creaciones
+// Constantes
 const COUNTRY_CODES = [
   { code: '+57', country: 'Colombia', flag: '🇨🇴' },
   { code: '+1', country: 'Estados Unidos', flag: '🇺🇸' },
@@ -27,7 +27,6 @@ const COUNTRY_CODES = [
   { code: '+39', country: 'Italia', flag: '🇮🇹' },
 ];
 
-// Estado inicial como constante
 const INITIAL_FORM_STATE = {
   name: '',
   email: '',
@@ -36,7 +35,6 @@ const INITIAL_FORM_STATE = {
   message: ''
 };
 
-// EmailJS config
 const EMAILJS_CONFIG = {
   serviceId: 'service_fez450d',
   templateId: 'template_2gc9kmk',
@@ -46,28 +44,22 @@ const EMAILJS_CONFIG = {
 
 export default function ContactForm() {
   const [ref, inView] = useInView({
-    threshold: 0.3,
-    triggerOnce: true
+    threshold: 0.2, // Ajustado ligeramente para mejor UX en scroll
+    triggerOnce: false // Permite que la animación de scroll funcione al entrar/salir repetidamente
   });
 
   const [formData, setFormData] = useState(INITIAL_FORM_STATE);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  // Memoizar handleChange para evitar re-creaciones
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   }, []);
 
-  // Memoizar handleSubmit
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (isSubmitting) return; // Prevenir doble envío
+    if (isSubmitting) return;
     
     setIsSubmitting(true);
 
@@ -95,7 +87,6 @@ export default function ContactForm() {
       console.error('Error sending email:', error);
     } finally {
       setIsSubmitting(false);
-      // Usar requestIdleCallback para operaciones no críticas
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => {
           setTimeout(() => setSubmitStatus('idle'), 5000);
@@ -106,12 +97,10 @@ export default function ContactForm() {
     }
   }, [formData, isSubmitting]);
 
-  // Memoizar estilos del contenedor
   const containerStyle = useMemo(() => ({
     background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(254,243,199,0.05) 100%)'
   }), []);
 
-  // Memoizar las opciones del select para evitar re-renders
   const countryOptions = useMemo(() => 
     COUNTRY_CODES.map((country) => (
       <option key={country.code} value={country.code}>
@@ -120,41 +109,30 @@ export default function ContactForm() {
     ))
   , []);
 
-  // Memoizar las clases CSS que se repiten
   const inputClassName = "w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 border border-amber-300 dark:border-amber-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent backdrop-blur-sm text-gray-900 dark:text-white transition-all duration-300";
   const labelClassName = "block text-sm font-medium text-amber-600 dark:text-amber-400 mb-2";
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      exit={{ opacity: 0, y: -50 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      // Animación unificada: Scroll, Entrada y Salida
+      initial={{ opacity: 0, y: 50, scale: 0.95 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.95 }}
+      exit={{ opacity: 0, y: -50, scale: 0.9 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       className="w-full max-w-md mx-auto bg-white/10 dark:bg-gray-900/20 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-amber-400/30"
       style={containerStyle}
     >
-      <motion.h2
-        initial={{ opacity: 0, x: -30 }}
-        animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-        className="text-2xl font-bold text-amber-700 dark:text-amber-300 mb-6 text-center"
-      >
+      <h2 className="text-2xl font-bold text-amber-700 dark:text-amber-300 mb-6 text-center">
         <Suspense fallback={<span className="inline-block w-6 h-6 mr-2" />}>
           <DynamicIcon icon="Mail" size="md" className="inline-block mr-2" />
         </Suspense> Escríbenos
-      </motion.h2>
+      </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Nombre */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-        >
-          <label htmlFor="name" className={labelClassName}>
-            Nombre completo
-          </label>
+        <div>
+          <label htmlFor="name" className={labelClassName}>Nombre completo</label>
           <input
             type="text"
             id="name"
@@ -165,17 +143,11 @@ export default function ContactForm() {
             className={inputClassName}
             placeholder="Tu nombre"
           />
-        </motion.div>
+        </div>
 
         {/* Email */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-        >
-          <label htmlFor="email" className={labelClassName}>
-            Correo electrónico
-          </label>
+        <div>
+          <label htmlFor="email" className={labelClassName}>Correo electrónico</label>
           <input
             type="email"
             id="email"
@@ -186,19 +158,12 @@ export default function ContactForm() {
             className={inputClassName}
             placeholder="tu@email.com"
           />
-        </motion.div>
+        </div>
 
-        {/* Teléfono con código de país */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-          className="grid grid-cols-3 gap-3"
-        >
+        {/* Teléfono */}
+        <div className="grid grid-cols-3 gap-3">
           <div>
-            <label htmlFor="country" className={labelClassName}>
-              País
-            </label>
+            <label htmlFor="country" className={labelClassName}>País</label>
             <select
               id="country"
               name="country"
@@ -210,9 +175,7 @@ export default function ContactForm() {
             </select>
           </div>
           <div className="col-span-2">
-            <label htmlFor="phone" className={labelClassName}>
-              Número de teléfono
-            </label>
+            <label htmlFor="phone" className={labelClassName}>Número de teléfono</label>
             <input
               type="tel"
               id="phone"
@@ -224,17 +187,11 @@ export default function ContactForm() {
               placeholder="300 123 4567"
             />
           </div>
-        </motion.div>
+        </div>
 
         {/* Mensaje */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-          transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
-        >
-          <label htmlFor="message" className={labelClassName}>
-            Mensaje
-          </label>
+        <div>
+          <label htmlFor="message" className={labelClassName}>Mensaje</label>
           <textarea
             id="message"
             name="message"
@@ -245,15 +202,10 @@ export default function ContactForm() {
             className={`${inputClassName} resize-none`}
             placeholder="Cuéntanos cómo podemos ayudarte..."
           />
-        </motion.div>
+        </div>
 
-        {/* Botón de enviar */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-          transition={{ duration: 0.5, delay: 0.6, ease: "easeOut" }}
-          className="pt-2"
-        >
+        {/* Botón */}
+        <div className="pt-2">
           <button
             type="submit"
             disabled={isSubmitting}
@@ -271,36 +223,27 @@ export default function ContactForm() {
               )}
             </Suspense>
           </button>
-        </motion.div>
+        </div>
 
-        {/* Mensaje de estado */}
+        {/* Estado */}
         {submitStatus !== 'idle' && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={`p-3 rounded-lg text-center ${
+          <div
+            className={`p-3 rounded-lg text-center animate-pulse ${
               submitStatus === 'success' 
                 ? 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300' 
                 : 'bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300'
             }`}
           >
-            {submitStatus === 'success' 
-              ? '✅ Mensaje enviado correctamente' 
-              : '❌ Error al enviar el mensaje'}
-          </motion.div>
+            {submitStatus === 'success' ? '✅ Mensaje enviado correctamente' : '❌ Error al enviar el mensaje'}
+          </div>
         )}
       </form>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.5, delay: 0.7, ease: "easeOut" }}
-        className="mt-4 text-center"
-      >
+      <div className="mt-4 text-center">
         <p className="text-xs text-amber-600/70 dark:text-amber-400/70">
           Te responderemos en menos de 24 horas
         </p>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

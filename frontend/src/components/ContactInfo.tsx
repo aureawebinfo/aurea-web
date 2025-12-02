@@ -1,13 +1,13 @@
 // ContactInfo.tsx
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { lazy, Suspense, memo,useCallback } from 'react';
+import { lazy, Suspense, memo, useCallback } from 'react';
 import type { IconName } from "./DynamicIcon";
 
-// Optimización: Lazy loading del componente DynamicIcon para reducir bundle inicial
+// Lazy loading
 const DynamicIcon = lazy(() => import('./DynamicIcon'));
 
-// Optimización: Mover constantes fuera del componente para evitar re-creaciones
+// Constantes
 const SOCIAL_MEDIA: {
   icon: IconName;
   name: string;
@@ -55,7 +55,7 @@ const tiktok = {
     customIcon: true
   };
 
-// Optimización: Memoizar componente TikTok para evitar re-renders innecesarios
+// Icono optimizado
 const TiktokIcon = memo(({ className = "w-6 h-6" } : { className?: string }) => (
   <svg 
     viewBox="0 0 24 24" 
@@ -68,13 +68,12 @@ const TiktokIcon = memo(({ className = "w-6 h-6" } : { className?: string }) => 
 
 export default function ContactInfo() {
   const [ref, inView] = useInView({
-    threshold: 0.3,
-    triggerOnce: true
+    threshold: 0.2,
+    triggerOnce: false // Permite re-animar al hacer scroll
   });
 
-  const socialMedia = [...SOCIAL_MEDIA, tiktok]; // Optimización: Usar referencia a constante
+  const socialMedia = [...SOCIAL_MEDIA, tiktok];
 
-  // Optimización: Memoizar callbacks para evitar re-creaciones
   const openWhatsApp = useCallback(() => {
     window.open('https://wa.me/573002477019', '_blank');
   }, []);
@@ -83,25 +82,19 @@ export default function ContactInfo() {
     window.open('mailto:aureawebinfo@gmail.com', '_blank');
   }, []);
 
-  // Componente SVG personalizado para TikTok - Ya movido fuera
-
   return (
     <motion.div
       ref={ref}
-      initial={ { opacity: 0, y: 50 } }
-      animate={ inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 } }
-      exit={{ opacity: 0, y: -50 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      // Animación única del contenedor
+      initial={{ opacity: 0, y: 50, scale: 0.95 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 50, scale: 0.95 }}
+      exit={{ opacity: 0, y: -50, scale: 0.9 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
       className="w-full max-w-md mx-auto bg-white/10 dark:bg-gray-900/20 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-amber-200 dark:border-amber-600"
     >
-      <motion.div
-        initial={{ opacity: 0, x: -30 }}
-        animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-        className="text-center mb-6"
-      >
+      {/* Header */}
+      <div className="text-center mb-6">
         <div className="flex flex-col items-center mb-2">
-          {/* Optimización: Suspense para lazy loading */}
           <Suspense fallback={<div className="w-8 h-8" />}>
             <DynamicIcon icon="UserRoundPen" size="md" />
           </Suspense>
@@ -113,40 +106,28 @@ export default function ContactInfo() {
         <p className="text-sm">
           Estamos aquí para ayudarte. ¡Contáctanos por cualquier medio!
         </p>
-      </motion.div>
+      </div>
 
-      {/* Logo de la empresa */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-        transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-        className="mb-6 flex justify-center"
-      >
-        <div className="w-48 h-48 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 p-1 shadow-lg">
+      {/* Logo */}
+      <div className="mb-6 flex justify-center">
+        <div className="w-48 h-48 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 p-1 shadow-lg transition-transform hover:scale-105 duration-500">
           <div className="w-full h-full rounded-full bg-white dark:bg-gray-800 flex items-center justify-center">
             <img 
               src="/img/logo_aurea_name.png"
               alt="Áurea Web Logo"
               className="w-full h-full rounded-full object-contain"
-              loading="lazy" // Optimización: Lazy loading de imagen
-              decoding="async" // Optimización: Decodificación asíncrona
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Información de contacto */}
-      <motion.div
-        initial={{ opacity: 0, x: -30 }}
-        animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
-        transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-        className="space-y-4 mb-6"
-      >
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+      {/* Botones de contacto principal */}
+      <div className="space-y-4 mb-6">
+        <button
           onClick={openWhatsApp}
-          className="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center space-x-3"
+          className="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-3 shadow-md"
         >
           <span className="text-xl">
             <Suspense fallback={<div className="w-6 h-6" />}>
@@ -157,13 +138,11 @@ export default function ContactInfo() {
             <p className="text-sm font-semibold">WhatsApp</p>
             <p className="text-xs">+57 300 247 7019</p>
           </div>
-        </motion.button>
+        </button>
 
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+        <button
           onClick={openEmail}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center space-x-3"
+          className="w-full bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-3 shadow-md"
         >
           <span className="text-xl">
             <Suspense fallback={<div className="w-6 h-6" />}>
@@ -174,36 +153,22 @@ export default function ContactInfo() {
             <p className="text-sm font-semibold">Email</p>
             <p className="text-xs">aureawebinfo@gmail.com</p>
           </div>
-        </motion.button>
-      </motion.div>
+        </button>
+      </div>
 
       {/* Redes sociales */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-        className="mb-4"
-      >
+      <div className="mb-4">
         <h4 className="text-center font-semibold mb-4">
           Síguenos en redes sociales
         </h4>
         <div className="grid grid-cols-3 gap-3">
-          {socialMedia.map((social, index) => (
-            <motion.a
+          {socialMedia.map((social) => (
+            <a
               key={social.name}
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-              transition={{ 
-                duration: 0.4, 
-                delay: 0.5 + (index * 0.1),
-                ease: "easeOut" 
-              }}
-              whileHover={{ scale: 1.1, y: -2 }}
-              whileTap={{ scale: 0.9 }}
-              className={`flex flex-col items-center justify-center p-3 rounded-lg bg-gray-100 dark:bg-gray-700 transition-all duration-300 ${social.color}`}
+              className={`flex flex-col items-center justify-center p-3 rounded-lg bg-gray-100 dark:bg-gray-700 transition-all duration-200 transform hover:scale-105 hover:-translate-y-1 active:scale-95 ${social.color}`}
             >
               {social.customIcon ? (
                 <TiktokIcon className="w-6 h-6" />
@@ -219,21 +184,16 @@ export default function ContactInfo() {
               <span className="text-xs mt-1 text-gray-600 dark:text-gray-300">
                 {social.name}
               </span>
-            </motion.a>
+            </a>
           ))}
         </div>
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.5, delay: 0.8, ease: "easeOut" }}
-        className="mt-4 text-center"
-      >
+      <div className="mt-4 text-center">
         <p className="text-sm">
           ¡Conectemos y creemos algo increíble juntos!
         </p>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }
