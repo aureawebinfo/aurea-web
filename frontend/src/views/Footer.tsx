@@ -1,5 +1,5 @@
-import DynamicIcon from '@/components/DynamicIcon';
-import Text from '../components/Text';
+import DynamicIcon from "@/components/DynamicIcon";
+import Text from "../components/Text";
 
 export default function Footer() {
   // Define el tipo para los iconos válidos
@@ -7,18 +7,18 @@ export default function Footer() {
 
   // Mapeo seguro de iconos
   const socialIconsMap: Record<string, ValidIcon> = {
-    "Github": "Github",
-    "Twitter": "Twitter", 
-    "Instagram": "Instagram",
-    "LinkedIn": "Linkedin"
+    Github: "Github",
+    Twitter: "Twitter",
+    Instagram: "Instagram",
+    LinkedIn: "Linkedin",
   };
 
   // URLs para cada red social
   const socialUrls = {
-    "Github": "https://github.com/aureawebinfo",
-    "Twitter": "https://x.com/Aurea_Web", 
-    "Instagram": "https://www.instagram.com/aurea.web/",
-    "LinkedIn": "https://www.linkedin.com/in/%C3%A1urea-web-s-a-s-403861384/"
+    Github: "https://github.com/aureawebinfo",
+    Twitter: "https://x.com/Aurea_Web",
+    Instagram: "https://www.instagram.com/aurea.web/",
+    LinkedIn: "https://www.linkedin.com/in/%C3%A1urea-web-s-a-s-403861384/",
   };
   return (
     <footer className="pt-12 pb-8 bg-transparent">
@@ -37,16 +37,16 @@ export default function Footer() {
               {Object.keys(socialUrls).map((social) => {
                 const socialKey = social as keyof typeof socialUrls;
                 const iconName = socialIconsMap[socialKey];
-                
+
                 return (
                   <a
                     key={social}
                     href={socialUrls[socialKey]}
                     className="text-[var(--color-text)] hover:text-[var(--color-gold)] transition-colors duration-300"
                     aria-label={social}
-                    target='_blank'
+                    target="_blank"
                   >
-                    {iconName && <DynamicIcon icon={iconName} size='md' />}
+                    {iconName && <DynamicIcon icon={iconName} size="md" />}
                   </a>
                 );
               })}
@@ -58,10 +58,38 @@ export default function Footer() {
               Enlaces Rápidos
             </h4>
             <ul className="space-y-2">
-              {["Inicio","Servicios", "Portafolio", "Nuestro Equipo", "Opiniones", "Contacto"].map((item) => (
+              {[
+                "Inicio",
+                "Servicios",
+                "Portafolio",
+                "Nuestro Equipo",
+                "Opiniones",
+                "Contacto",
+              ].map((item) => (
                 <li key={item}>
                   <a
-                    href={["hero", "service", "portfolio", "team", "opinions", "contact"].map((item) => (`#${item.toLowerCase()}`))[item === "Inicio" ? 0 : item === "Servicios" ? 1 : item === "Portafolio" ? 2 : item === "Nuestro Equipo" ? 3 : item === "Opiniones" ? 4 : 5]}
+                    href={
+                      [
+                        "hero",
+                        "service",
+                        "portfolio",
+                        "team",
+                        "opinions",
+                        "contact",
+                      ].map((item) => `#${item.toLowerCase()}`)[
+                        item === "Inicio"
+                          ? 0
+                          : item === "Servicios"
+                            ? 1
+                            : item === "Portafolio"
+                              ? 2
+                              : item === "Nuestro Equipo"
+                                ? 3
+                                : item === "Opiniones"
+                                  ? 4
+                                  : 5
+                      ]
+                    }
                     className="text-[var(--color-text)] hover:text-[var(--color-gold)] transition-colors duration-300 block"
                   >
                     {item}
@@ -76,12 +104,20 @@ export default function Footer() {
               Contacto
             </h4>
             <address className="not-italic">
-              <Text variant="light" textAlign="left" className="flex items-center mt-2">
-                <DynamicIcon icon='Mail' size='sm' />  aureawebinfo@gmail.com
+              <Text
+                variant="light"
+                textAlign="left"
+                className="flex items-center mt-2"
+              >
+                <DynamicIcon icon="Mail" size="sm" /> aureawebinfo@gmail.com
               </Text>
               <Text variant="light" textAlign="left">
-                <a href="https://wa.me/573002477019" className='flex items-center' target="_blank">
-                  <DynamicIcon icon='PhoneCall' size='sm' />  +57 300 247 7019
+                <a
+                  href="https://wa.me/573002477019"
+                  className="flex items-center"
+                  target="_blank"
+                >
+                  <DynamicIcon icon="PhoneCall" size="sm" /> +57 300 247 7019
                 </a>
               </Text>
             </address>
@@ -91,7 +127,11 @@ export default function Footer() {
         <div className="border-t border-[var(--color-gold)] mt-12 mb-8"></div>
 
         <div className="text-center">
-          <Text variant="light" className="text-[var(--color-gold)]" textAlign="center">
+          <Text
+            variant="light"
+            className="text-[var(--color-gold)]"
+            textAlign="center"
+          >
             &copy; {new Date().getFullYear()} Áurea Web. Todos los derechos
             reservados.
           </Text>
