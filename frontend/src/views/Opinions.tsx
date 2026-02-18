@@ -1,113 +1,105 @@
-import Section from "@/components/Section";
-import SectionContent from "@/components/SectionContent";
-import SectionHeader from "@/components/SectionHeader";
-import Text from "@/components/Text";
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
+import { Star, Quote } from 'lucide-react';
 
-// Datos de las opiniones
-const opiniones = [
+// TUS TESTIMONIOS REALES
+const testimonials = [
   {
     id: 1,
-    nombre: "Alirio Martinez",
-    subtitulo: "Energias Renovables Polo a Tierra",
-    enlace: "energiaspoloatierra.com",
-    imagen: "/img/clients/foto_alirio.png",
-    opinion: "Son excelentes en lo que hacen y muy profesionales. Mi sitio web quedó increíble."
+    name: "Alirio Martinez",
+    company: "Energias Renovables Polo a Tierra",
+    text: "Son excelentes en lo que hacen y muy profesionales. Mi sitio web quedó increíble, superando todas mis expectativas iniciales.",
+    image: "/img/clients/foto_alirio.png",
+    rating: 5
   },
   {
     id: 2,
-    nombre: "Darius",
-    subtitulo: "Proyecto Global Gaia",
-    enlace: "proyectoglobalgaia.com",
-    imagen: "https://placehold.co/120x120/blue/white?text=D",
-    opinion: "El equipo de Aurea Web superó mis expectativas. La atención al detalle y la creatividad son impresionantes."
+    name: "Darius",
+    company: "Proyecto Global Gaia",
+    text: "El equipo de Aurea Web superó mis expectativas. La atención al detalle y la creatividad para plasmar nuestra misión social son impresionantes.",
+    image: "https://placehold.co/120x120/10B981/white?text=D", // Placeholder elegante si no hay foto
+    rating: 5
   },
   {
     id: 3,
-    nombre: "Roger Pereira", // Datos ficticios agregados
-    subtitulo: "Tienda online para ingenieros de redes y seguridad",
-    enlace: "#",
-    imagen: "https://exiventas.co",
-    opinion: "Lograron captar la esencia de mi marca personal perfectamente. La web es rápida y el diseño es minimalista."
+    name: "Roger Pereira",
+    company: "Tienda Online Seguridad",
+    text: "Lograron captar la esencia de mi marca personal perfectamente. La web es rápida, el diseño es minimalista y mis ventas han mejorado.",
+    image: "https://placehold.co/120x120/D4AF37/white?text=R",
+    rating: 5
   }
 ];
 
-export default function Opinions() {
+export const Testimonials = () => {
   return (
-    <Section variant="fourth" id="opinions" className="py-8 md:py-12">
-      <SectionHeader 
-        title="Opiniones de clientes" 
-        subtitle="Lo que dicen las personas con las que hemos trabajado" 
-      />
-      
-      {/* Forzamos que el contenido sea bloque para manejar nuestro propio grid interno */}
-      <SectionContent className="!block">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto px-2">
-          {opiniones.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ 
-                duration: 0.5, 
-                delay: index * 0.1, // Pequeño retraso escalonado para efecto visual
-                ease: "easeOut" 
-              }}
-              whileHover={{ 
-                y: -5,
-                boxShadow: "0px 10px 30px rgba(0,0,0,0.2)",
-              }}
-              className="relative rounded-2xl shadow-xl p-6 flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-6 backdrop-blur-sm border border-gold/30 bg-primary/70 dark:bg-primary/50 w-full"
-            >
-              {/* Imagen circular */}
-              <div className="flex-shrink-0">
-                <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-lg mx-auto md:mx-0">
-                  <img 
-                    src={item.imagen} 
-                    alt={item.nombre}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
+    <section id="opiniones" className="relative py-32 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        
+        {/* Encabezado */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="font-heading text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+            Lo que dicen nuestros <span className="gradient-text">Clientes</span>
+          </h2>
+          <p className="text-[#F0F0F0] text-base md:text-lg font-sans font-light max-w-2xl mx-auto">
+            Historias de éxito de quienes confiaron su visión digital en nosotros
+          </p>
+        </motion.div>
 
-              {/* Contenido de la tarjeta */}
-              <div className="flex-1">
-                <h3 className="font-bold mb-1 text-lg md:text-xl">
-                  {item.nombre}
-                </h3>
-                <a 
-                  href={item.enlace !== "#" ? `https://${item.enlace}` : "#"} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-blue-600 dark:text-blue-400 hover:underline mb-3 inline-block text-sm"
-                >
-                  {item.subtitulo}
-                </a>
+        {/* Grid de Testimonios */}
+        <div className="grid md:grid-cols-3 gap-8">
+          {testimonials.map((testimonial, index) => (
+            <motion.div
+              key={testimonial.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              className="glass-card p-8 relative flex flex-col h-full hover:bg-white/5 transition-colors duration-300"
+            >
+              {/* Comillas Decorativas */}
+              <Quote className="text-[#d4af37] opacity-10 absolute top-6 right-6 rotate-180" size={60} />
+              
+              {/* Estrellas */}
+              <div className="flex gap-1 mb-6">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star key={i} size={18} className="text-[#d4af37] fill-[#d4af37]" />
+                ))}
+              </div>
+              
+              {/* Texto de la Opinión */}
+              <p className="text-[#F0F0F0] text-base font-sans font-light leading-relaxed mb-8 relative z-10 flex-grow italic">
+                "{testimonial.text}"
+              </p>
+              
+              {/* Info del Cliente */}
+              <div className="border-t border-white/10 pt-6 flex items-center gap-4">
+                {/* Avatar */}
+                <div className="w-12 h-12 rounded-full overflow-hidden border border-[#d4af37]/50">
+                   <img 
+                      src={testimonial.image} 
+                      alt={testimonial.name} 
+                      className="w-full h-full object-cover"
+                   />
+                </div>
+                
                 <div>
-                  <Text 
-                    variant="light" 
-                    size="sm"
-                    textAlign="center"
-                    className="italic opacity-90"
-                  >
-                    "{item.opinion}"
-                  </Text>
+                    <h4 className="font-heading text-lg font-bold text-white leading-tight">
+                      {testimonial.name}
+                    </h4>
+                    <p className="text-[#d4af37] text-xs font-sans uppercase tracking-wider mt-1">
+                      {testimonial.company}
+                    </p>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
-
-        {/* Botón Ver Más - OCULTO (hidden) por ahora */}
-        <div className="mt-12 text-center hidden">
-          <button className="px-8 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-full font-medium hover:shadow-lg hover:scale-105 transition-all duration-300">
-            Ver más opiniones
-          </button>
-        </div>
-
-      </SectionContent>
-    </Section>
+      </div>
+    </section>
   );
-}
+};
