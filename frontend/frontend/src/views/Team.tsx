@@ -83,52 +83,25 @@ const FireworksAnim = () => {
 };
 
 // Animación de Diseño (Figuras Geométricas)
-const DesignAnim = () => {
-  return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
-      {/* Grilla base de UI */}
-      <svg width="100%" height="100%" className="absolute opacity-10">
-        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-          <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#818cf8" strokeWidth="0.5" />
-        </pattern>
-        <rect width="100%" height="100%" fill="url(#grid)" />
-      </svg>
-
-      {/* Nodos de conexión (Animación original restaurada) */}
-      {[
-        { x: -40, y: -30, delay: 0 },
-        { x: 40, y: -20, delay: 0.5 },
-        { x: -20, y: 40, delay: 1 },
-        { x: 30, y: 30, delay: 1.5 },
-      ].map((pos, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-2 h-2 bg-indigo-400 rounded-sm shadow-[0_0_5px_rgba(129,140,248,0.4)]"
-          style={{ x: pos.x, y: pos.y }}
-          animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0.7, 0.3] }}
-          transition={{ duration: 2, repeat: Infinity, delay: pos.delay }}
-        />
-      ))}
-
-      {/* Líneas de trazado (Rutas/Wireframes animadas) */}
-      <svg width="120" height="120" viewBox="0 0 120 120" className="absolute opacity-40">
-        <motion.path
-          d="M 20 30 L 80 40 L 40 100 L 90 90"
-          fill="none"
-          stroke="#818cf8"
-          strokeWidth="1.5"
-          strokeDasharray="4 4"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1, opacity: [0, 1, 0] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-        />
-      </svg>
-      
-      {/* Resplandor central suave para cohesión */}
-      <div className="absolute w-24 h-24 bg-indigo-500/10 blur-[40px] rounded-full" />
-    </div>
-  );
-};
+const DesignAnim = () => (
+  <div className="absolute inset-0 pointer-events-none overflow-hidden">
+    <motion.div
+      className="absolute top-4 left-4 w-8 h-8 border border-purple-400/30 rounded-full"
+      animate={{ y: [0, 10, 0], rotate: 360 }}
+      transition={{ duration: 5, repeat: Infinity }}
+    />
+    <motion.div
+      className="absolute bottom-10 right-4 w-6 h-6 border border-pink-400/30 rotate-45"
+      animate={{ y: [0, -15, 0], rotate: [45, 90, 45] }}
+      transition={{ duration: 4, repeat: Infinity }}
+    />
+    <motion.div
+      className="absolute top-1/2 left-2 w-4 h-4 bg-blue-400/20 rounded-full blur-sm"
+      animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0.6, 0.3] }}
+      transition={{ duration: 2, repeat: Infinity }}
+    />
+  </div>
+);
 
 // Animación Matemática (Backend/Lógica)
 const MathAnim = () => {
