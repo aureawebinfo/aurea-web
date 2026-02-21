@@ -1,9 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, ChevronDown, ChevronUp, Plus, Minus } from 'lucide-react';
+import { ExternalLink, Plus, Minus } from 'lucide-react';
 
-// --- DATOS (Sin cambios) ---
+// --- DATOS ---
 const projects = [
+  {
+    id: 7,
+    title: "Plantilla E-Commerce",
+    category: "E-Commerce",
+    image: "/img/works/work_7.png",
+    description: "Plantilla de comercio electrónico construida con Next.js, rutas dinámicas y Context API para alto rendimiento.",
+    link: "https://template-aurea-shop.vercel.app/"
+  },
+  {
+    id: 4,
+    title: "Plantilla Restaurante",
+    category: "Gastronomía",
+    image: "/img/works/work_4.png",
+    description: "Web atractiva con menús digitales y sistema de reservas. Optimizada para experiencia móvil y SEO local.",
+    link: "https://plantilla-restaurante.aurea-web.com"
+  },
+  {
+    id: 6,
+    title: "Catálogo Digital",
+    category: "E-Commerce",
+    image: "/img/works/work_6.png",
+    description: "Catálogo interactivo de productos con categorización avanzada y galería de imágenes optimizada.",
+    link: "https://plantilla-catalogo.aurea-web.com"
+  },
   {
     id: 1,
     title: "Energias Renovables Polo a Tierra",
@@ -29,44 +53,16 @@ const projects = [
     link: "https://plantilla-dentista.aurea-web.com"
   },
   {
-    id: 4,
-    title: "Plantilla Restaurante",
-    category: "Gastronomía",
-    image: "/img/works/work_4.png",
-    description: "Web atractiva con menús digitales y sistema de reservas. Optimizada para experiencia móvil y SEO local.",
-    link: "https://plantilla-restaurante.aurea-web.com"
-  },
-  {
     id: 5,
     title: "Veterinaria Landing",
     category: "Landing Page",
     image: "/img/works/work_5.png",
     description: "Página de aterrizaje de alta conversión para clínicas veterinarias. Diseño enfocado en agendamiento de citas.",
     link: "https://plantilla-landing-pages-veterinaria.aurea-web.com"
-  },
-  {
-    id: 6,
-    title: "Catálogo Digital",
-    category: "E-Commerce",
-    image: "/img/works/work_6.png",
-    description: "Catálogo interactivo de productos con categorización avanzada y galería de imágenes optimizada.",
-    link: "https://plantilla-catalogo.aurea-web.com"
   }
 ];
 
-// --- HOOK MÓVIL ---
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-  return isMobile;
-}
-
-// --- ANIMACIÓN: COMETAS (Ajustada para redimensionarse) ---
+// --- ANIMACIÓN: COMETAS ---
 const ShootingStars = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -82,10 +78,9 @@ const ShootingStars = () => {
     let animationId: number;
     let comets: any[] = [];
 
-    // Función de redimensionado que se llamará al cambiar el tamaño de la ventana
     const resizeCanvas = () => {
       canvas.width = container.offsetWidth;
-      canvas.height = container.offsetHeight; // Altura dinámica total
+      canvas.height = container.offsetHeight;
     };
 
     class Comet {
@@ -135,7 +130,6 @@ const ShootingStars = () => {
     init();
     animate();
 
-    // ResizeObserver es mejor para detectar cambios en el contenedor (como al expandir "Ver más")
     const resizeObserver = new ResizeObserver(() => {
         resizeCanvas();
     });
@@ -154,7 +148,7 @@ const ShootingStars = () => {
   );
 };
 
-// --- TARJETA DE PROYECTO (Componente extraído para limpieza) ---
+// --- TARJETA DE PROYECTO ---
 const ProjectCard = ({ project, index }: { project: any, index: number }) => (
   <motion.a
     href={project.link}
@@ -173,16 +167,14 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => (
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         loading="lazy"
       />
-      {/* Overlay al hacer hover en desktop */}
       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
          <span className="px-4 py-2 border border-[#d4af37] text-[#d4af37] text-sm uppercase tracking-widest font-bold bg-black/80 backdrop-blur-sm rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-            Visitar Sitio
+           Visitar Sitio
          </span>
       </div>
     </div>
 
     <div className="p-6 flex flex-col flex-grow relative">
-       {/* Efecto de brillo sutil en el fondo */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#d4af37]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
       
       <span className="text-[#d4af37] text-[10px] font-sans uppercase tracking-widest font-bold mb-2 opacity-80">
@@ -207,30 +199,23 @@ const ProjectCard = ({ project, index }: { project: any, index: number }) => (
 
 // --- COMPONENTE PRINCIPAL ---
 export const Portfolio = () => {
-  const isMobile = useIsMobile();
-  const [showAllMobile, setShowAllMobile] = useState(false);
-  const MOBILE_INITIAL_COUNT = 4;
+  const [showAll, setShowAll] = useState(false);
+  const INITIAL_COUNT = 3;
   
-  // Proyectos siempre visibles
-  const initialProjects = projects.slice(0, MOBILE_INITIAL_COUNT);
-  // Proyectos ocultos (solo para móvil)
-  const hiddenProjects = projects.slice(MOBILE_INITIAL_COUNT);
+  const initialProjects = projects.slice(0, INITIAL_COUNT);
+  const hiddenProjects = projects.slice(INITIAL_COUNT);
 
   return (
     <section id="portafolio" className="relative py-24 md:py-32 overflow-hidden bg-[#011514]">
       
       <div className="absolute inset-0 bg-[url('/img/backgrounds/portfolio-bg.png')] bg-cover bg-center bg-no-repeat opacity-20 mix-blend-overlay z-0" />
-      
-      {/* Cometas que cubren todo el alto gracias al ResizeObserver interno */}
       <ShootingStars />
       
-      {/* Gradientes de fusión (Top/Bottom) */}
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#050505] to-transparent z-10 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#050505] to-transparent z-10 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-20">
         
-        {/* Encabezado */}
         <div className="text-center mb-16">
           <h2 className="font-heading text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
             Nuestros Proyectos <span className="text-[#d4af37]">y Plantillas</span>
@@ -241,46 +226,35 @@ export const Portfolio = () => {
           </p>
         </div>
 
-        {/* Grid de Proyectos */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 mb-8">
-            {/* 1. Renderizamos los proyectos iniciales siempre */}
             {initialProjects.map((project, index) => (
                 <ProjectCard key={project.id} project={project} index={index} />
             ))}
 
-            {/* 2. Renderizamos el resto condicionalmente (Desktop: siempre, Móvil: Animado) */}
-            {!isMobile && hiddenProjects.map((project, index) => (
-                <ProjectCard key={project.id} project={project} index={index + MOBILE_INITIAL_COUNT} />
-            ))}
-            
-            {/* Animación para móvil */}
-            {isMobile && (
-                <AnimatePresence>
-                    {showAllMobile && hiddenProjects.map((project, index) => (
-                        <motion.div
-                            key={project.id}
-                            initial={{ opacity: 0, height: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, height: 'auto', scale: 1 }}
-                            exit={{ opacity: 0, height: 0, scale: 0.9 }}
-                            transition={{ duration: 0.4 }}
-                            className="overflow-hidden"
-                        >
-                            <ProjectCard project={project} index={index + MOBILE_INITIAL_COUNT} />
-                        </motion.div>
-                    ))}
-                </AnimatePresence>
-            )}
+            <AnimatePresence>
+                {showAll && hiddenProjects.map((project, index) => (
+                    <motion.div
+                        key={project.id}
+                        initial={{ opacity: 0, height: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, height: 'auto', scale: 1 }}
+                        exit={{ opacity: 0, height: 0, scale: 0.9 }}
+                        transition={{ duration: 0.4 }}
+                        className="overflow-hidden h-full"
+                    >
+                        <ProjectCard project={project} index={index + INITIAL_COUNT} />
+                    </motion.div>
+                ))}
+            </AnimatePresence>
         </div>
 
-        {/* Botón Ver Más (Solo Móvil) - CLEAN DESIGN */}
-        {isMobile && projects.length > MOBILE_INITIAL_COUNT && (
-          <div className="flex justify-center md:hidden pt-4 relative z-30">
+        {projects.length > INITIAL_COUNT && (
+          <div className="flex justify-center pt-4 relative z-30">
             <button
-              onClick={() => setShowAllMobile(!showAllMobile)}
+              onClick={() => setShowAll(!showAll)}
               className="group flex items-center gap-2 px-6 py-2 rounded-full border border-[#d4af37]/30 text-[#d4af37] text-xs font-bold uppercase tracking-widest hover:bg-[#d4af37]/10 hover:border-[#d4af37] transition-all duration-300"
             >
-              <span className="relative top-[1px]">{showAllMobile ? 'Ver Menos' : 'Ver Más'}</span>
-              {showAllMobile ? <Minus size={14} /> : <Plus size={14} />}
+              <span className="relative top-[1px]">{showAll ? 'Ver Menos' : 'Ver Más'}</span>
+              {showAll ? <Minus size={14} /> : <Plus size={14} />}
             </button>
           </div>
         )}

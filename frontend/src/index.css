@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @layer base {
@@ -6,14 +6,43 @@
     --background: 5 5% 5%;
     --foreground: 0 0% 98%;
   }
-  
+
+  /* Barra de Scroll Personalizada */
+  ::-webkit-scrollbar {
+    width: 10px; /* Ancho de la barra vertical */
+    height: 10px; /* Alto de la barra horizontal */
+  }
+
+  /* El carril (fondo) de la barra */
+  ::-webkit-scrollbar-track {
+    background: #050505; /* Mismo negro que tu body */
+  }
+
+  /* La pieza que se mueve (el indicador) */
+  ::-webkit-scrollbar-thumb {
+    background: #d4af37; /* Tu dorado corporativo */
+    border-radius: 10px; /* Bordes redondeados */
+    border: 2px solid #050505; /* Espacio alrededor para que se vea más fina */
+  }
+
+  /* Efecto al pasar el mouse sobre la barra */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #f0c674; /* Un dorado más claro (el de tu gradiente) */
+  }
+
+  /* Estilos para Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #d4af37 #050505;
+  }
+
   body {
     background-color: #050505;
     color: white;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     overflow-x: hidden;
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
@@ -25,7 +54,7 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   /* Botón Dorado */
   .golden-button {
     background: transparent;
@@ -38,7 +67,7 @@
     font-weight: 500;
     transition: all 0.3s ease;
   }
-  
+
   .golden-button:hover {
     background: #d4af37;
     color: #050505;
@@ -48,7 +77,11 @@
 
   /* Fondo del Hero */
   .hero-gradient {
-    background: radial-gradient(circle at 30% 50%, rgba(26, 92, 92, 0.15) 0%, rgba(5, 5, 5, 0) 70%);
+    background: radial-gradient(
+      circle at 30% 50%,
+      rgba(26, 92, 92, 0.15) 0%,
+      rgba(5, 5, 5, 0) 70%
+    );
     pointer-events: none;
   }
 }

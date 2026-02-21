@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'sonner';
-import { ChatWidget } from './components/ChatWidget';
+import { WhatsAppButton } from './components/WhatsAppButton';
 
 // 1. IMPORTACIONES DE UI (Desde 'components')
 // Asegúrate de que StarField esté en components y sea .tsx
@@ -37,14 +37,13 @@ function App() {
           <Testimonials />
           <Contact />
           <Footer />
+          <WhatsAppButton />
         </div>
-
-          <ChatWidget />
           
         {/* Notificaciones */}
         <Toaster position="top-right" theme="dark" richColors />
       </div>
-    </BrowserRouter>
+    </BrowserRouter>  
   );
 }
 
