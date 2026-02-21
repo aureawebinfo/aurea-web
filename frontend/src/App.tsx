@@ -1,5 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import { Toaster } from 'sonner';
+import { ChatWidget } from './components/ChatWidget';
 
 // 1. IMPORTACIONES DE UI (Desde 'components')
 // Asegúrate de que StarField esté en components y sea .tsx
@@ -9,7 +10,7 @@ import { StarField } from './components/StarField';
 // Conectamos el archivo físico (ej: Header) con el componente lógico (ej: Navbar)
 
 import { Navbar } from './views/Header';       // El archivo es Header.tsx, el componente es Navbar
-import Hero from './views/Hero';               // Hero suele ser export default (ver nota abajo*)
+import Hero from './views/Hero';              // Hero suele ser export default (ver nota abajo*)
 import { Services } from './views/Services';   
 import { Portfolio } from './views/Portfolio'; // Nota: Tu archivo tiene un typo "Portforlio"
 import { Team } from './views/Team';  // El archivo es NuestroEquipo.tsx, el componente es Team
@@ -38,6 +39,8 @@ function App() {
           <Footer />
         </div>
 
+          <ChatWidget />
+          
         {/* Notificaciones */}
         <Toaster position="top-right" theme="dark" richColors />
       </div>
