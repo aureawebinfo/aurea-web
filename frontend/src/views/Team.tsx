@@ -1,14 +1,6 @@
 import { motion } from "framer-motion";
-import {
-  Github,
-  Linkedin,
-  Briefcase,
-  Shield,
-  Rocket,
-  Palette,
-  Binary,
-} from "lucide-react";
-import React, { useMemo } from "react";
+import { Github, Linkedin, Briefcase } from "lucide-react";
+import React from "react";
 
 // --- 1. COMPONENTES DE ANIMACIÓN TEMÁTICA (MINI-ESCENAS) ---
 
