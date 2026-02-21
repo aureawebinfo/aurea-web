@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: 5 5% 5%;
+    --foreground: 0 0% 98%;
+  }
+
+  /* Barra de Scroll Personalizada */
+  ::-webkit-scrollbar {
+    width: 10px; /* Ancho de la barra vertical */
+    height: 10px; /* Alto de la barra horizontal */
+  }
+
+  /* El carril (fondo) de la barra */
+  ::-webkit-scrollbar-track {
+    background: #050505; /* Mismo negro que tu body */
+  }
+
+  /* La pieza que se mueve (el indicador) */
+  ::-webkit-scrollbar-thumb {
+    background: #d4af37; /* Tu dorado corporativo */
+    border-radius: 10px; /* Bordes redondeados */
+    border: 2px solid #050505; /* Espacio alrededor para que se vea más fina */
+  }
+
+  /* Efecto al pasar el mouse sobre la barra */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #f0c674; /* Un dorado más claro (el de tu gradiente) */
+  }
+
+  /* Estilos para Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #d4af37 #050505;
+  }
+
+  body {
+    background-color: #050505;
+    color: white;
+    font-family: "Inter", sans-serif;
+    overflow-x: hidden;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Clases para texto con gradiente */
+  .gradient-text {
+    background: linear-gradient(135deg, #f0c674 0%, #d4af37 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Botón Dorado */
+  .golden-button {
+    background: transparent;
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    padding: 12px 32px;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .golden-button:hover {
+    background: #d4af37;
+    color: #050505;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  }
+
+  /* Fondo del Hero */
+  .hero-gradient {
+    background: radial-gradient(
+      circle at 30% 50%,
+      rgba(26, 92, 92, 0.15) 0%,
+      rgba(5, 5, 5, 0) 70%
+    );
+    pointer-events: none;
+  }
+}
