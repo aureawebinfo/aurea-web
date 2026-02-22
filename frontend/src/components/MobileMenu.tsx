@@ -1,6 +1,5 @@
 import Logo from "./Logo";
 import NavLink from "./NavLink";
-import ThemeToggle from "./ThemeToggle";
 import DynamicIcon from "./DynamicIcon";
 
 interface MobileMenuProps {
@@ -38,7 +37,7 @@ export default function MobileMenu({ isOpen, onClose, navigation }: MobileMenuPr
         ))}
         
         <div className="flex items-center justify-between mt-6 pt-4 border-t">
-          <ThemeToggle />
+          
         </div>
       </nav>
     </div>
