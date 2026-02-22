@@ -188,7 +188,7 @@ const teamMembers = [
     name: "John Lievano",
     role: "Frontend Developer", // Título corregido
     shortTitle: "Creador de Experiencias Visuales",
-    image: "/img/team/john.jpeg",
+    image: "/img/team/johnesteban.jpeg",
     bio: "Especialista en diseño y desarrollo de interfaces. Transforma código en experiencias visuales atractivas.",
     gradient: "from-[#1e1b4b] to-[#000000]", // Índigo/Morado
     iconColor: "text-indigo-400",
