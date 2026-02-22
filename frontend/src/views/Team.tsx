@@ -195,8 +195,8 @@ const teamMembers = [
     Animation: DesignAnim, // Asignamos diseño
     links: {
       github: "https://github.com/johnlievano",
-      linkedin: "#",
-      portfolio: "https://portfolio-john-amber.vercel.app/", // URL Corregida
+      linkedin: "https://www.linkedin.com/in/john-esteban-li%C3%A9vano-m%C3%A9ndez-b99532288/",
+      portfolio: "https://portfolio-john-amber.vercel.app/", 
     },
   },
   {
