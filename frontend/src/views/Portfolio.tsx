@@ -208,7 +208,7 @@ export const Portfolio = () => {
   return (
     <section id="portafolio" className="relative py-24 md:py-32 overflow-hidden bg-[#011514]">
       
-      <div className="absolute inset-0 bg-[url('/img/backgrounds/portfolio-bg.png')] bg-cover bg-center bg-no-repeat opacity-20 mix-blend-overlay z-0" />
+      
       <ShootingStars />
       
       <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#050505] to-transparent z-10 pointer-events-none" />
